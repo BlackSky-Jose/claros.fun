@@ -14,6 +14,20 @@ interface Star {
   maxSize?: number;
 }
 
+interface FallingStar {
+  id: string;
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+  progress: number; // 0 to 1
+  speed: number;
+  size: number;
+  opacity: number;
+  trailLength: number;
+  angle: number;
+}
+
 interface Nebula {
   id: string;
   x: number;
@@ -28,6 +42,7 @@ interface Nebula {
 const SpaceEffect: React.FC = () => {
   const [stars, setStars] = useState<Star[]>([]);
   const [nebulas, setNebulas] = useState<Nebula[]>([]);
+  const [fallingStars, setFallingStars] = useState<FallingStar[]>([]);
   const animationRef = useRef<number | null>(null);
   const timeRef = useRef(0);
 
@@ -81,6 +96,44 @@ const SpaceEffect: React.FC = () => {
 
     setStars(createStars());
     setNebulas(createNebulas());
+
+    // Create falling stars function
+    const createFallingStar = (): FallingStar => {
+      // Create more pronounced diagonal slash movement
+      const isLeftToRight = Math.random() > 0.5; // Random direction
+      
+      let startX, startY, endX, endY;
+      
+      if (isLeftToRight) {
+        // Forward slash / - starts from top-left, ends at bottom-right
+        startX = -100; // Start from left side
+        startY = -50;
+        endX = window.innerWidth + 100; // End at right side
+        endY = window.innerHeight * 0.5;
+      } else {
+        // Backslash \ - starts from top-right, ends at bottom-left
+        startX = -100; // Start from left side
+        startY = -50;
+        endX = window.innerWidth + 100; // End at right side
+        endY = window.innerHeight * 0.5;
+      }
+      
+      const angle = Math.atan2(endY - startY, endX - startX);
+      
+      return {
+        id: Math.random().toString(36).substr(2, 9),
+        startX,
+        startY,
+        endX,
+        endY,
+        progress: 0,
+        speed: Math.random() * 0.005 + 0.001, // Random speed between 0.01 and 0.03
+        size: Math.random() * 3 + 1, // Size between 1 and 4
+        opacity: Math.random() * 0.8 + 0.2, // Opacity between 0.2 and 1
+        trailLength: Math.random() * 100 + 80, // Trail length between 60 and 140 (longer)
+        angle,
+      };
+    };
 
     // Animation loop for space movement
     const animate = () => {
@@ -153,6 +206,30 @@ const SpaceEffect: React.FC = () => {
         };
       }));
 
+      // Update falling stars
+      setFallingStars(prev => {
+        const updatedFallingStars = prev.map(star => {
+          const newProgress = star.progress + star.speed;
+          
+          if (newProgress >= 1) {
+            // Star has finished falling, remove it
+            return null;
+          }
+          
+          return {
+            ...star,
+            progress: newProgress,
+          };
+        }).filter(star => star !== null) as FallingStar[];
+
+        // Occasionally spawn new falling stars
+        if (Math.random() < 0.008 && updatedFallingStars.length < 3) { // Max 3 falling stars at once
+          return [...updatedFallingStars, createFallingStar()];
+        }
+
+        return updatedFallingStars;
+      });
+
       animationRef.current = requestAnimationFrame(animate);
     };
 
@@ -187,17 +264,17 @@ const SpaceEffect: React.FC = () => {
         style={{
           background: `
             radial-gradient(ellipse at ${50 + Math.sin(timeRef.current * 0.01) * 30}% ${40 + Math.cos(timeRef.current * 0.015) * 20}%, 
-              rgba(5, 2, 8, 0.3) 0%, 
-              rgba(6, 5, 40, 0.2) 30%,
+              rgba(4, 2, 8, 0.3) 0%, 
+              rgba(6, 5, 40, 0.37) 30%,
               transparent 60%
             ),
             radial-gradient(ellipse at ${80 + Math.sin(timeRef.current * 0.008) * 25}% ${70 + Math.cos(timeRef.current * 0.012) * 15}%, 
-              rgba(15, 25, 50, 0.25) 0%, 
+              rgba(6, 14, 36, 0.25) 0%, 
               rgba(10, 15, 30, 0.15) 40%,
               transparent 70%
             ),
             radial-gradient(ellipse at ${20 + Math.sin(timeRef.current * 0.006) * 20}% ${20 + Math.cos(timeRef.current * 0.01) * 25}%, 
-              rgba(15, 19, 80, 0.2) 0%, 
+              rgba(7, 9, 39, 0.2) 0%, 
               rgba(8, 11, 50, 0.05) 50%,
               transparent 80%
             )
@@ -216,7 +293,7 @@ const SpaceEffect: React.FC = () => {
               transparent 30%,
               rgba(5, 7, 12, 0.3) 50%,
               transparent 70%,
-              rgba(35, 15, 55, 0.2) 100%
+              rgba(15, 24, 55, 0.2) 100%
             )
           `,
           transform: `translate(${Math.cos(timeRef.current * 0.015) * 1}px, ${Math.sin(timeRef.current * 0.02) * 1.5}px)`,
@@ -229,7 +306,7 @@ const SpaceEffect: React.FC = () => {
         style={{
           background: `
             radial-gradient(circle at ${30 + Math.sin(timeRef.current * 0.005) * 10}% ${60 + Math.cos(timeRef.current * 0.008) * 10}%, 
-              rgba(50, 20, 90, 0.15) 0%, 
+              rgba(9, 9, 51, 0.15) 0%, 
               transparent 50%
             ),
             radial-gradient(circle at ${70 + Math.sin(timeRef.current * 0.007) * 15}% ${30 + Math.cos(timeRef.current * 0.006) * 12}%, 
@@ -237,7 +314,7 @@ const SpaceEffect: React.FC = () => {
               transparent 45%
             ),
             radial-gradient(circle at ${90 + Math.sin(timeRef.current * 0.004) * 8}% ${80 + Math.cos(timeRef.current * 0.009) * 8}%, 
-              rgba(60, 15, 100, 0.1) 0%, 
+              rgba(10, 9, 63, 0.1) 0%, 
               transparent 40%
             )
           `,
@@ -245,7 +322,7 @@ const SpaceEffect: React.FC = () => {
       />
       
       {/* Moving nebulas */}
-      {nebulas.map((nebula) => (
+      {/* {nebulas.map((nebula) => (
         <div
           key={nebula.id}
           className="absolute rounded-full blur-sm"
@@ -260,7 +337,7 @@ const SpaceEffect: React.FC = () => {
             transform: `scale(${1 + Math.sin(timeRef.current * 0.1 + nebula.id.charCodeAt(0)) * 0.1})`,
           }}
         />
-      ))}
+      ))} */}
       
       {/* Background stars (slowest movement) */}
       {stars.filter(star => star.layer === 0).map((star) => (
@@ -341,6 +418,61 @@ const SpaceEffect: React.FC = () => {
         />
       ))}
       
+      {/* Falling stars (shooting stars) */}
+      {fallingStars.map((star) => {
+        const currentX = star.startX + (star.endX - star.startX) * star.progress;
+        const currentY = star.startY + (star.endY - star.startY) * star.progress;
+        const trailStartX = currentX - Math.cos(star.angle) * star.trailLength;
+        const trailStartY = currentY - Math.sin(star.angle) * star.trailLength;
+        
+        // Fade out as star approaches middle
+        const fadeProgress = Math.min(1, star.progress * 2); // Fade starts at 50% progress
+        const currentOpacity = star.opacity * (1 - fadeProgress);
+        
+        return (
+          <div key={star.id} style={{ zIndex: 5 }}>
+            {/* Star trail */}
+            <div
+              className="absolute"
+              style={{
+                left: `${trailStartX}px`,
+                top: `${trailStartY}px`,
+                width: `${star.trailLength}px`,
+                height: '3px', // Slightly thicker trail
+                background: `linear-gradient(90deg, 
+                  transparent 0%, 
+                  rgba(255, 255, 255, ${currentOpacity * 0.3}) 10%,
+                  rgba(255, 255, 255, ${currentOpacity * 0.6}) 30%, 
+                  rgba(255, 255, 255, ${currentOpacity * 0.9}) 70%,
+                  rgba(255, 255, 255, ${currentOpacity}) 100%
+                )`,
+                transform: `rotate(${star.angle}rad)`,
+                transformOrigin: '0 50%',
+                filter: 'blur(0.8px)', // More blur for longer trail effect
+              }}
+            />
+            {/* Star head */}
+            <div
+              className="absolute rounded-full"
+              style={{
+                left: `${currentX}px`,
+                top: `${currentY}px`,
+                width: `${star.size}px`,
+                height: `${star.size}px`,
+                backgroundColor: '#ffffff',
+                opacity: currentOpacity,
+                boxShadow: `
+                  0 0 ${star.size * 2}px #ffffff,
+                  0 0 ${star.size * 4}px rgba(255, 255, 255, 0.8),
+                  0 0 ${star.size * 8}px rgba(255, 255, 255, 0.4)
+                `,
+                filter: 'blur(0.3px)',
+              }}
+            />
+          </div>
+        );
+      })}
+      
       {/* Enhanced cosmic dust with gradient */}
       <div 
         className="absolute inset-0 opacity-15"
@@ -358,7 +490,7 @@ const SpaceEffect: React.FC = () => {
               transparent,
               transparent 3px,
               rgba(200, 150, 255, 0.02) 3px,
-              rgba(200, 150, 255, 0.02) 6px
+              rgba(181, 150, 255, 0.02) 6px
             )
           `,
           transform: `translate(${Math.sin(timeRef.current * 0.01) * 1}px, ${Math.cos(timeRef.current * 0.015) * 0.5}px)`,
@@ -371,18 +503,18 @@ const SpaceEffect: React.FC = () => {
         style={{
           background: `
             radial-gradient(ellipse at ${50 + Math.sin(timeRef.current * 0.005) * 20}% ${30 + Math.cos(timeRef.current * 0.008) * 15}%, 
-              rgba(50, 20, 80, 0.15) 0%, 
-              rgba(30, 10, 60, 0.08) 40%,
+              rgba(8, 5, 41, 0.15) 0%, 
+              rgba(10, 37, 60, 0.1) 40%,
               transparent 70%
             ),
             radial-gradient(ellipse at ${80 + Math.sin(timeRef.current * 0.007) * 15}% ${70 + Math.cos(timeRef.current * 0.006) * 10}%, 
-              rgba(30, 10, 60, 0.12) 0%, 
+              rgba(17, 10, 60, 0.12) 0%, 
               rgba(20, 5, 40, 0.06) 35%,
               transparent 60%
             ),
             radial-gradient(ellipse at ${20 + Math.sin(timeRef.current * 0.003) * 12}% ${80 + Math.cos(timeRef.current * 0.004) * 8}%, 
-              rgba(40, 15, 70, 0.1) 0%, 
-              rgba(25, 8, 50, 0.05) 30%,
+              rgba(23, 15, 70, 0.1) 0%, 
+              rgba(3, 3, 37, 0.05) 30%,
               transparent 55%
             )
           `,
@@ -395,11 +527,11 @@ const SpaceEffect: React.FC = () => {
         style={{
           background: `
             linear-gradient(45deg, 
-              rgba(15, 25, 45, 0.1) 0%, 
+              rgba(0, 0, 0, 0.1) 0%, 
               transparent 25%,
-              rgba(25, 15, 35, 0.08) 50%,
+              rgba(15, 19, 35, 0.08) 50%,
               transparent 75%,
-              rgba(35, 20, 55, 0.06) 100%
+              rgba(20, 29, 55, 0.06) 100%
             )
           `,
           transform: `translate(${Math.cos(timeRef.current * 0.008) * 0.5}px, ${Math.sin(timeRef.current * 0.012) * 0.8}px)`,
