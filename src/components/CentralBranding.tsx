@@ -10,7 +10,7 @@ interface CentralBrandingProps {
 
 const CentralBranding: React.FC<CentralBrandingProps> = ({ isCleaning, onCleanClick }) => {
   return (
-    <div className="relative z-10 flex flex-col items-center justify-center h-full px-4">
+    <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 mb-10 pb-10">
       <MagicalParticles />
       <div className="text-center relative">
         <VibratingTitle text="Claros.fun" />

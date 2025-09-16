@@ -7,7 +7,8 @@ interface CleanButtonProps {
 
 const CleanButton: React.FC<CleanButtonProps> = ({ isCleaning, onClick }) => {
   return (
-    <div className="ancient-button-container">
+    <div className="ancient-button-container mt-10">
+      <div className="h-5"></div>
       <button
         onClick={onClick}
         className={`ancient-button ${isCleaning ? 'cleaning-state' : 'normal-state'}`}
