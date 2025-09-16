@@ -1468,8 +1468,8 @@ body {
 
 .button-main {
   position: relative;
-  width: 150px;
-  height: 50px;
+  width: 200px;
+  height: 60px;
   transition: 4s;
   transform-style: preserve-3d;
   transform: perspective(1000px) rotateX(0deg);
@@ -1493,7 +1493,7 @@ body {
   background: rgba(141, 248, 165, 0.767);
   font-family: sans-serif;
   text-transform: uppercase;
-  font-size: 22px;
+  font-size: 25px;
   letter-spacing: 2px;
   transition: 0.5s;
   border: 2px solid #026126;
@@ -1509,14 +1509,14 @@ body {
   background: rgba(3, 169, 244, 0.8);
 }
 .button-main span:nth-child(1) {
-  transform: rotateX(360deg) translateZ(25px);
+  transform: rotateX(360deg) translateZ(30px);
 }
 .button-main span:nth-child(2) {
-  transform: rotateX(270deg) translateZ(25px);
+  transform: rotateX(270deg) translateZ(30px);
 }
 .button-main span:nth-child(3) {
-  transform: rotateX(180deg) translateZ(25px);
+  transform: rotateX(180deg) translateZ(30px);
 }
 .button-main span:nth-child(4) {
-  transform: rotateX(90deg) translateZ(25px);
+  transform: rotateX(90deg) translateZ(30px);
 } 

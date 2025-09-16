@@ -14,6 +14,7 @@ const CentralBranding: React.FC<CentralBrandingProps> = ({ isCleaning, onCleanCl
       <MagicalParticles />
       <div className="text-center relative">
         <VibratingTitle text="Claros.fun" />
+        <div className='h-3'></div>
         <p className="text-lg sm:text-xl md:text-2xl mb-12 font-light tv-subtitle">
           Coming soon...
         </p>

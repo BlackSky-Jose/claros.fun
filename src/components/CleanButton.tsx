@@ -8,7 +8,7 @@ interface CleanButtonProps {
 const CleanButton: React.FC<CleanButtonProps> = ({ isCleaning, onClick }) => {
   return (
     <div className="ancient-button-container mt-10f">
-      <div className="h-5"></div>
+      <div className="h-8"></div>
    
 
       <div className='flex'>
