@@ -106,7 +106,7 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
     }, 1000); // New meme every 3 seconds
 
     return () => clearInterval(interval);
-  }, [isCleaning]);
+  }, [isCleaning, playDisappearSound]);
 
   // Auto-remove new elements in cleaning mode
   useEffect(() => {

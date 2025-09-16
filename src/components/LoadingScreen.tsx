@@ -9,7 +9,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
   const [isComplete, setIsComplete] = useState(false);
   const [showFallingChars, setShowFallingChars] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [rotationAngle, setRotationAngle] = useState(0);
   const [isFadingToDark, setIsFadingToDark] = useState(false);
 
   // Generate stable particle data to prevent hydration mismatch
@@ -79,14 +78,8 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
       console.log('Current progress value:', progress);
       setIsTransitioning(true);
       
-      // Add smooth rotation during transition
-      const rotationInterval = setInterval(() => {
-        setRotationAngle(prev => prev + 1);
-      }, 30);
-      
       // Start circle transition after a longer delay to see the full process
       setTimeout(() => {
-        clearInterval(rotationInterval);
         
         // Start dark fade effect
         setTimeout(() => {
@@ -251,9 +244,9 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
             opacity: isTransitioning ? 0 : 1,
             transform: `scale(${isTransitioning ? '10' : '1'})`,
             transition: 'all 1s ease-out',
-            ['--n' as any]: 24,
-            ['--f' as any]: 0.3,
-            ['--p' as any]: progress.toString(),
+            ['--n' as string]: '24',
+            ['--f' as string]: '0.3',
+            ['--p' as string]: progress.toString(),
             } as React.CSSProperties}>
               {/* Debug scale indicator */}
               {/* <div style={{

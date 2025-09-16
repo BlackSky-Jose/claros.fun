@@ -58,7 +58,6 @@ const MouseTail: React.FC<MouseTailProps> = ({ isActive = true }) => {
 
     const interval = setInterval(() => {
       setTailPoints(prev => {
-        const now = Date.now();
         return prev
           .map(point => ({
             ...point,

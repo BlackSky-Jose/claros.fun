@@ -28,20 +28,9 @@ interface FallingStar {
   angle: number;
 }
 
-interface Nebula {
-  id: string;
-  x: number;
-  y: number;
-  size: number;
-  opacity: number;
-  color: string;
-  speed: number;
-  layer: number;
-}
 
 const SpaceEffect: React.FC = () => {
   const [stars, setStars] = useState<Star[]>([]);
-  const [nebulas, setNebulas] = useState<Nebula[]>([]);
   const [fallingStars, setFallingStars] = useState<FallingStar[]>([]);
   const animationRef = useRef<number | null>(null);
   const timeRef = useRef(0);
@@ -67,35 +56,8 @@ const SpaceEffect: React.FC = () => {
       return newStars;
     };
 
-    // Create nebulas
-    const createNebulas = () => {
-      const newNebulas: Nebula[] = [];
-      const colors = [
-        'rgba(0, 0, 0, 0.3)',
-        'rgba(20, 5, 40, 0.2)',
-        'rgba(15, 8, 30, 0.25)',
-        'rgba(25, 15, 45, 0.2)',
-        'rgba(10, 20, 35, 0.15)',
-      ];
-      
-      for (let i = 0; i < 8; i++) {
-        const layer = Math.floor(Math.random() * 3);
-        newNebulas.push({
-          id: Math.random().toString(36).substr(2, 9),
-          x: Math.random() * window.innerWidth * 1.5 - window.innerWidth * 0.25,
-          y: Math.random() * window.innerHeight * 1.5 - window.innerHeight * 0.25,
-          size: Math.random() * 400 + 200,
-          opacity: Math.random() * 0.3 + 0.1,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          speed: (layer + 1) * 0.05,
-          layer,
-        });
-      }
-      return newNebulas;
-    };
 
     setStars(createStars());
-    setNebulas(createNebulas());
 
     // Create falling stars function
     const createFallingStar = (): FallingStar => {
@@ -195,16 +157,6 @@ const SpaceEffect: React.FC = () => {
         return updatedStars;
       });
 
-      setNebulas(prev => prev.map(nebula => {
-        const newX = (nebula.x + nebula.speed * Math.cos(timeRef.current * 0.08)) % (window.innerWidth * 1.5);
-        const newY = (nebula.y + nebula.speed * Math.sin(timeRef.current * 0.06)) % (window.innerHeight * 1.5);
-        
-        return {
-          ...nebula,
-          x: newX < -200 ? window.innerWidth * 1.5 : newX,
-          y: newY < -200 ? window.innerHeight * 1.5 : newY,
-        };
-      }));
 
       // Update falling stars
       setFallingStars(prev => {
