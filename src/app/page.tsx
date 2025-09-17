@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Background, CentralBranding, MemeElement, FogEffect,  TunnelEffect, ExplosionEffect } from '@/components';
+import { Background, CentralBranding, MemeElement, FogEffect, TunnelEffect, ExplosionEffect, HitMarker } from '@/components';
 import MagicalOrbs from '@/components/MagicalOrbs';
 import ScanlineEffect from '@/components/ScanlineEffect';
 import LoadingScreen from '@/components/LoadingScreen';
@@ -11,8 +11,8 @@ import { useAudio, useMemeElements } from '@/hooks';
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [isCleaning, setIsCleaning] = useState(false);
-  const { initAudio, playHitSound, playDisappearSound } = useAudio();
-  const { memeElements, fogEffects, explosionEffects, containerRef, cleanAllElements, removeFogEffect, removeExplosionEffect, handleMemeElementClick } = useMemeElements(isCleaning, playDisappearSound);
+  const { initAudio, playHitSound, playDisappearSound, playHitmarkerSound } = useAudio();
+  const { memeElements, hitMarkers, fogEffects, explosionEffects, containerRef, cleanAllElements, removeFogEffect, removeExplosionEffect, handleMemeElementClick } = useMemeElements(isCleaning, playDisappearSound, playHitmarkerSound);
 
   // Initialize audio
   useEffect(() => {
@@ -56,9 +56,9 @@ export default function Home() {
     <div ref={containerRef} className="relative w-full h-screen overflow-hidden bg-black">
       <SpaceEffect />
       <TunnelEffect />
-      <Background />
+      {/* <Background /> */}
       <MagicalOrbs />
-      <ScanlineEffect />
+      {/* <ScanlineEffect /> */}
       {/* <MouseTail isActive={!isLoading} /> */}
       <CentralBranding isCleaning={isCleaning} onCleanClick={handleCleanClick} />
       
@@ -87,6 +87,18 @@ export default function Home() {
           size={fog.size}
           duration={fog.duration}
           onComplete={() => removeFogEffect(fog.id)}
+        />
+      ))}
+
+      {/* Hit Markers */}
+      {hitMarkers.map((marker) => (
+        <HitMarker
+          key={marker.id}
+          x={marker.x}
+          y={marker.y}
+          onComplete={() => {
+            // HitMarker will be auto-removed by the cleanup effect in useMemeElements
+          }}
         />
       ))}
 

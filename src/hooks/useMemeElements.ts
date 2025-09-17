@@ -40,16 +40,24 @@ export interface ExplosionEffect {
 }
 
 
+
 const MEME_IMAGES = [
+  "https://gateway.lighthouse.storage/ipfs/bafybeie2rwtagry42iccboksu6sllmeszxdegevesnojpqed3j4n24cq2a/1.png",
+  "https://gateway.lighthouse.storage/ipfs/bafybeie2rwtagry42iccboksu6sllmeszxdegevesnojpqed3j4n24cq2a/7.png",
   'https://cdn.discordapp.com/attachments/1177655125012119603/1417635167731712010/crying_arabist_wojak.png?ex=68cb3322&is=68c9e1a2&hm=b31ea1c94d15ce420b5dd2bd13a7b72b1098ea556f1133d27083228c1dd4490f&',
   'https://cdn.discordapp.com/attachments/1177655125012119603/1417635167387783348/13239-jeet.png?ex=68cb3322&is=68c9e1a2&hm=0bce3cf1732157c580390525fc33209f1df798d50ff0e41b2f58253f324d2d76&',
+  "https://gateway.lighthouse.storage/ipfs/bafybeie2rwtagry42iccboksu6sllmeszxdegevesnojpqed3j4n24cq2a/3.png",
+  "https://gateway.lighthouse.storage/ipfs/bafybeie2rwtagry42iccboksu6sllmeszxdegevesnojpqed3j4n24cq2a/2.png",
+  'https://cdn.discordapp.com/attachments/1177655125012119603/1417635165878091848/Brr-Brr-Patapim-Viral-TikTok-Meme.png?ex=68cb3321&is=68c9e1a1&hm=c2fa2a671e612962177b5fe1dc6aff65ba04a1aa5d6224c59daf405d04fdd574&',
+  'https://static.wikia.nocookie.net/muc/images/2/22/Pepthefrog.png',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Republicanlogo.svg/1200px-Republicanlogo.svg.png',
   'https://cdn.discordapp.com/attachments/1177655125012119603/1417635167002165268/dfbq3d8-d327b451-ef05-494a-b455-32c0156e6a18.png?ex=68cb3322&is=68c9e1a2&hm=2c8e946d00c0682aaec1b4d1bef9f22f656b9cde5b9174fbc877279a205a4786&',
   'https://cdn.discordapp.com/attachments/1177655125012119603/1417635166716690522/328-3289174_trans-pride-flag-pixel-car-transparent.png?ex=68cb3322&is=68c9e1a2&hm=e10fe5a77d7db4b4cf4a4b5341ab0715cb13856d91c7b87a85d886831114aee7&',
   'https://cdn.discordapp.com/attachments/1177655125012119603/1417635165106077736/donald_trump_finger_raise_meme_wojak.png?ex=68cb3321&is=68c9e1a1&hm=d5d61010f4dcdbd0c4c3cbe3a0f805004572cd26aff4e95cda3f258998648df1&',
   'https://cdn.discordapp.com/attachments/1177655125012119603/1417635166406316072/Tung-Tung-Tung-Sahur-TikTok-Meme-Character-Transparent.png?ex=68cb3322&is=68c9e1a2&hm=205560567c828eefea78dcae6622d9d7880bf8132bf92137eeb1af6fcada62ec&',
-  'https://cdn.discordapp.com/attachments/1177655125012119603/1417635165878091848/Brr-Brr-Patapim-Viral-TikTok-Meme.png?ex=68cb3321&is=68c9e1a1&hm=c2fa2a671e612962177b5fe1dc6aff65ba04a1aa5d6224c59daf405d04fdd574&',
-  'https://static.wikia.nocookie.net/muc/images/2/22/Pepthefrog.png',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Republicanlogo.svg/1200px-Republicanlogo.svg.png',
+  "https://gateway.lighthouse.storage/ipfs/bafybeie2rwtagry42iccboksu6sllmeszxdegevesnojpqed3j4n24cq2a/6.png",
+  "https://gateway.lighthouse.storage/ipfs/bafybeie2rwtagry42iccboksu6sllmeszxdegevesnojpqed3j4n24cq2a/5.png",
+  "https://gateway.lighthouse.storage/ipfs/bafybeie2rwtagry42iccboksu6sllmeszxdegevesnojpqed3j4n24cq2a/4.png",
   'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/DemocraticLogo.svg/250px-DemocraticLogo.svg.png',
   'https://specials-images.forbesimg.com/imageserve/6890d9978dc6d3c0d4c53d38/960x0.png',
   'https://i.imgflip.com/73qvau.png',
@@ -58,7 +66,7 @@ const MEME_IMAGES = [
 ];
 
 
-export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => void) => {
+export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => void, playHitmarkerSound?: () => void) => {
   const [memeElements, setMemeElements] = useState<MemeElement[]>([]);
   const [hitMarkers, setHitMarkers] = useState<HitMarker[]>([]);
   const [fogEffects, setFogEffects] = useState<FogEffect[]>([]);
@@ -73,8 +81,7 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
     const size = Math.random() * 100 + 30; // 30-130px
     const x = Math.random() * (containerRect.width - size);
     const y = Math.random() * (containerRect.height - size);
-    const rotation = Math.random() * 360; //////////////////// corrected rotation ////////////////////
-    //////////////////// corrected rotation ////////////////////
+    const rotation = Math.random() * 180 - 10; // Gentle rotation between -30 and +30 degrees
     const duration = Math.random() * 4000 + 3000; // 3-7 seconds
     const src = MEME_IMAGES[Math.floor(Math.random() * MEME_IMAGES.length)];
 
@@ -93,6 +100,7 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
   };
   };
 
+
   // Generate random meme elements
   useEffect(() => {
     const interval = setInterval(() => {
@@ -105,23 +113,26 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
       });
 
       if (isCleaning) {
-        // In purging mode: explode after 0.3 seconds
+        // In purging mode: animation (0.3s) + stay (0.6s) = 0.9s total, then fade out
         setTimeout(() => {
           setMemeElements(prev => {
             const element = prev.find(el => el.id === newElement.id);
             if (element) {
-              // Add explosion effect
-              addExplosionEffect(element.x + element.size / 2, element.y + element.size / 2, element.size);
-              // Add fog effect
-              addFogEffect(element.x + element.size / 2, element.y + element.size / 2, element.size);
-              // Play disappear sound
-              if (playDisappearSound) {
-                playDisappearSound();
-              }
+              // Start fade out after staying visible for 0.6s
+              return prev.map(el => 
+                el.id === newElement.id 
+                  ? { ...el, opacity: 0, isHit: true }
+                  : el
+              );
             }
-            return prev.filter(el => el.id !== newElement.id);
+            return prev;
           });
-        }, 800); // 0.8 seconds
+          
+          // Remove element after fade animation
+          setTimeout(() => {
+            setMemeElements(prev => prev.filter(el => el.id !== newElement.id));
+          }, 500);
+        }, 1300); // 0.3s (animation) + 0.6s (stay) = 0.9s total
       } else {
         // Normal mode: remove element after duration with fog effect
         setTimeout(() => {
@@ -152,7 +163,7 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
           const now = Date.now();
           return prev.filter(el => {
             const age = now - el.createdAt;
-            return age < 1000; // Keep elements less than 1 second old (backup cleanup)
+            return age < 2000; // Keep elements less than 2 seconds old (backup cleanup)
           });
         });
       }, 1000);
@@ -176,7 +187,7 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
     const interval = setInterval(() => {
       const now = Date.now();
       setFogEffects(prev => {
-        const filtered = prev.filter(fog => now - fog.createdAt < 5000); // 5 seconds max
+        const filtered = prev.filter(fog => now - fog.createdAt < 6000); // 5 seconds max
         if (filtered.length < prev.length) {
           console.log('Cleaned up old fog effects, removed:', prev.length - filtered.length);
         }
@@ -232,19 +243,27 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
   const handleMemeElementClick = (elementId: string) => {
     const element = memeElements.find(el => el.id === elementId);
     if (element) {
-      // Add explosion effect
-      addExplosionEffect(element.x + element.size / 2, element.y + element.size / 2, element.size);
+      // Add hitmarker (visual effect only)
+      addHitMarker(element.x + element.size / 2, element.y + element.size / 2);
       
-      // Add fog effect
-      addFogEffect(element.x + element.size / 2, element.y + element.size / 2, element.size);
-      
-      // Play hit sound
-      if (playDisappearSound) {
-        playDisappearSound();
+      // Play hitmarker sound (only for manual clicks)
+      if (playHitmarkerSound) {
+        playHitmarkerSound();
       }
       
-      // Remove the element
-      setMemeElements(prev => prev.filter(el => el.id !== elementId));
+      // Start fade out animation
+      setMemeElements(prev => 
+        prev.map(el => 
+          el.id === elementId 
+            ? { ...el, opacity: 0, isHit: true }
+            : el
+        )
+      );
+      
+      // Remove the element after fade animation completes
+      setTimeout(() => {
+        setMemeElements(prev => prev.filter(el => el.id !== elementId));
+      }, 500); // Match the CSS fade-out duration
     }
   };
 
@@ -270,6 +289,16 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
     setTimeout(() => {
       setMemeElements([]);
     }, 100);
+  };
+
+  const addHitMarker = (x: number, y: number) => {
+    const markerId = Math.random().toString(36).substr(2, 9);
+    setHitMarkers(prev => [...prev, {
+      id: markerId,
+      x,
+      y,
+      timestamp: Date.now(),
+    }]);
   };
 
   return {

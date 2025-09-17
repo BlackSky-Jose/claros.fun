@@ -27,41 +27,106 @@ const FogEffect: React.FC<FogEffectProps> = ({ x, y, size, duration = 2000, onCo
     <div
       className="absolute pointer-events-none"
       style={{
-        left: `${x - size / 6}px`,
-        top: `${y - size / 5}px`,
-        width: `${size/5}px`,
-        height: `${size/5}px`,
+        left: `${x - size /4}px`,
+        top: `${y - size / 4}px`,
+        width: `${size/3}px`,
+        height: `${size/3}px`,
         zIndex: 5,
       }}
     >
+      {/* Central explosion flash */}
       <div
-        className="w-full h-full rounded-full opacity-5"
+        className="absolute inset-0 rounded-full"
         style={{
-          background: 'radial-gradient(circle, rgba(223, 220, 219, 0.04) 0%, rgba(97, 97, 97, 0.14) 20%, rgba(247, 247, 247, 0.13) 40%, rgba(51, 51, 51, 0.04) 60%,rgba(241, 241, 241, 0.05)) 80%, rgba(226, 223, 223, 0.06) 100%)',
-          animation: 'fogExpand 0.8s ease-out forwards',
-          filter: 'blur(0.5px)',
-          boxShadow: '0 0 30px rgba(92, 91, 91, 0.05), 0 0 60px rgba(82, 82, 82, 0.11), 0 0 90px rgba(102, 102, 102, 0.1)',
+          background: 'radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 100, 100, 0.8) 20%, rgba(255, 200, 0, 0.6) 40%, rgba(255, 50, 50, 0.4) 60%, transparent 80%)',
+          animation: 'explosionFlash 0.6s ease-out forwards',
+          filter: 'blur(0px)',
+          boxShadow: '0 0 20px rgba(255, 100, 100, 0.8), 0 0 40px rgba(255, 200, 0, 0.6), 0 0 60px rgba(255, 50, 50, 0.4)',
         }}
       />
+      
+      {/* Outer explosion ring */}
       <div
-        className="absolute inset-0 w-full h-full rounded-full opacity-3"
+        className="absolute inset-0 rounded-full"
         style={{
-          background: 'radial-gradient(circle, rgba(77, 77, 77, 0.11) 0%rgba(54, 54, 54, 0.07)7) 30%, rgba(202, 202, 202, 0.09) 60%, rgba(97, 97, 97, 0.18) 80%, rgba(255, 229, 229, 0.1) 100%)',
-          animation: 'fogExpand 0.8s ease-out forwards',
+          background: 'radial-gradient(circle, transparent 0%, rgba(255, 150, 0, 0.3) 30%, rgba(255, 50, 50, 0.2) 60%, transparent 80%)',
+          animation: 'explosionRing 0.8s ease-out forwards',
           filter: 'blur(1px)',
-          transform: 'scale(1)',
+          transform: 'scale(1.5)',
         }}
       />
-      {/* Fire explosion particles */} 
+      
+      {/* Fire explosion core */}
       <div 
-        className="absolute inset-0 w-full h-full rounded-full opacity-10" 
+        className="absolute inset-0 rounded-full" 
         style={{ 
-          background: 'radial-gradient(circle, rgba(112, 112, 112, 0.03) 0%, rgba(158, 158, 158, 0.07) 25%, rgba(99, 99, 99, 0.11) 50%, rgba(241, 241, 241, 0.13) 75%, rgba(252, 251, 219, 0.14) 100%)',
-          animation: 'fogExpand 0.8s ease-out forwards',
-          filter: 'blur(1.5px)',
-          transform: 'scale(1.2)',
+          background: 'radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 200, 0, 0.9) 25%, rgba(255, 100, 0, 0.7) 50%, rgba(255, 0, 0, 0.5) 75%, transparent 100%)',
+          animation: 'explosionCore 0.4s ease-out forwards',
+          filter: 'blur(0.5px)',
+          transform: 'scale(0.8)',
         }}
       />
+      
+      {/* Explosion particles */}
+      <div 
+        className="absolute inset-0 rounded-full" 
+        style={{ 
+          background: 'radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(255, 150, 0, 0.4) 20%, rgba(255, 50, 50, 0.3) 40%, rgba(255, 0, 0, 0.2) 60%, transparent 80%)',
+          animation: 'explosionParticles 1s ease-out forwards',
+          filter: 'blur(2px)',
+          transform: 'scale(2)',
+        }}
+      />
+      
+      <style jsx>{`
+        @keyframes explosionFlash {
+          0% {
+            transform: scale(0);
+            opacity: 1;
+          }
+          50% {
+            transform: scale(1.2);
+            opacity: 0.8;
+          }
+          100% {
+            transform: scale(2);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes explosionRing {
+          0% {
+            transform: scale(0);
+            opacity: 0.8;
+          }
+          100% {
+            transform: scale(3);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes explosionCore {
+          0% {
+            transform: scale(0);
+            opacity: 1;
+          }
+          100% {
+            transform: scale(1.5);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes explosionParticles {
+          0% {
+            transform: scale(0);
+            opacity: 0.6;
+          }
+          100% {
+            transform: scale(4);
+            opacity: 0;
+          }
+        }
+      `}</style>
     </div>
   );
 };

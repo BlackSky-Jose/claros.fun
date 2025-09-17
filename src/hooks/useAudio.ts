@@ -37,7 +37,7 @@ export const useAudio = () => {
 
   const playDisappearSound = useCallback(() => {
     try {
-      const audio = new Audio('/buble.mp3');
+      const audio = new Audio('/sound.mp3');
       audio.volume = 0.3;
       audio.play().catch(() => {
         console.log('Sound file playback failed');
@@ -47,5 +47,30 @@ export const useAudio = () => {
     }
   }, []);
 
-  return { initAudio, playHitSound, playDisappearSound };
+  const playHitmarkerSound = useCallback(() => {
+    if (!audioContextRef.current) return;
+    
+    try {
+      const oscillator = audioContextRef.current.createOscillator();
+      const gainNode = audioContextRef.current.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContextRef.current.destination);
+      
+      // Hitmarker sound: quick high-pitched beep
+      oscillator.frequency.setValueAtTime(800, audioContextRef.current.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(1200, audioContextRef.current.currentTime + 0.05);
+      oscillator.frequency.exponentialRampToValueAtTime(600, audioContextRef.current.currentTime + 0.1);
+      
+      gainNode.gain.setValueAtTime(0.3, audioContextRef.current.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContextRef.current.currentTime + 0.1);
+      
+      oscillator.start(audioContextRef.current.currentTime);
+      oscillator.stop(audioContextRef.current.currentTime + 0.1);
+    } catch {
+      console.log('Hitmarker audio playback failed');
+    }
+  }, []);
+
+  return { initAudio, playHitSound, playDisappearSound, playHitmarkerSound };
 };

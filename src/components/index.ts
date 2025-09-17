@@ -14,3 +14,4 @@ export { default as FogEffect } from './FogEffect';
 export { default as VibratingTitle } from './VibratingTitle';
 // export { default as MouseTail } from './MouseTail';
 export { default as ExplosionEffect } from './ExplosionEffect';
+// export { default as HitMarker } from './HitMarker';

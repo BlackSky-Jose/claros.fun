@@ -107,7 +107,7 @@ const TunnelEffect: React.FC = () => {
           <div className="tunnel">
             {/* Side 1 */}
             <div className="side">
-              {Array.from({ length: 20 }, (_, i) => (
+              {Array.from({ length: 22 }, (_, i) => (
                 <div key={i} className="stroke">
                   {Array.from({ length: 10 }, (_, j) => (
                     <div key={j} className="square"></div>
@@ -118,7 +118,7 @@ const TunnelEffect: React.FC = () => {
             
             {/* Side 2 */}
             <div className="side">
-              {Array.from({ length: 20 }, (_, i) => (
+              {Array.from({ length: 22 }, (_, i) => (
                 <div key={i} className="stroke">
                   {Array.from({ length: 10 }, (_, j) => (
                     <div key={j} className="square"></div>
@@ -129,7 +129,7 @@ const TunnelEffect: React.FC = () => {
             
             {/* Side 3 */}
             <div className="side">
-              {Array.from({ length: 20 }, (_, i) => (
+              {Array.from({ length: 22 }, (_, i) => (
                 <div key={i} className="stroke">
                   {Array.from({ length: 10 }, (_, j) => (
                     <div key={j} className="square"></div>
@@ -140,7 +140,7 @@ const TunnelEffect: React.FC = () => {
             
             {/* Side 4 */}
             <div className="side">
-              {Array.from({ length: 20 }, (_, i) => (
+              {Array.from({ length: 22 }, (_, i) => (
                 <div key={i} className="stroke">
                   {Array.from({ length: 10 }, (_, j) => (
                     <div key={j} className="square"></div>
