@@ -37,7 +37,7 @@ export const useAudio = () => {
 
   const playDisappearSound = useCallback(() => {
     try {
-      const audio = new Audio('/sound.mp3');
+      const audio = new Audio('/buble.mp3');
       audio.volume = 0.3;
       audio.play().catch(() => {
         console.log('Sound file playback failed');

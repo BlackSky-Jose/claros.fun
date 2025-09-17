@@ -12,6 +12,7 @@ interface MemeElementProps {
   alt: string;
   opacity: number;
   isHit?: boolean;
+  onClick?: (id: string) => void;
 }
 
 const MemeElement: React.FC<MemeElementProps> = ({
@@ -24,6 +25,7 @@ const MemeElement: React.FC<MemeElementProps> = ({
   alt,
   opacity,
   isHit = false,
+  onClick,
 }) => {
   const [imageError, setImageError] = useState(false);
 
@@ -32,10 +34,16 @@ const MemeElement: React.FC<MemeElementProps> = ({
     setImageError(true);
   };
 
+  const handleClick = () => {
+    if (onClick && !isHit) {
+      onClick(id);
+    }
+  };
+
   return (
     <div
       key={id}
-      className={`absolute pointer-events-none transition-all duration-500 meme-element floating ${
+      className={`cursor-pointer absolute meme-element floating ${
         isHit ? 'fade-out' : ''
       }`}
       style={{
@@ -43,10 +51,13 @@ const MemeElement: React.FC<MemeElementProps> = ({
         top: `${y}px`,
         width: `${size}px`,
         height: `${size}px`,
-        transform: `rotate(${rotation}deg)`,
-        opacity: opacity,
-        zIndex: 5,
+        transform: isHit ? `rotate(${rotation}deg)` : `rotate(${rotation}deg)`,
+        opacity: isHit ? 0 : opacity,
+        zIndex: 1000,
+        pointerEvents: isHit ? 'none' : 'auto',
+        transition: isHit ? 'none' : 'all 1s ease',
       }}
+      onClick={handleClick}
     >
       {/* Ripple Effect */}
       <div 

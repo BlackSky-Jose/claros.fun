@@ -1,18 +1,18 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Background, CentralBranding, MemeElement, FogEffect, MouseTail } from '@/components';
+import { Background, CentralBranding, MemeElement, FogEffect,  TunnelEffect, ExplosionEffect } from '@/components';
 import MagicalOrbs from '@/components/MagicalOrbs';
 import ScanlineEffect from '@/components/ScanlineEffect';
-import SpaceEffect from '@/components/SpaceEffect';
 import LoadingScreen from '@/components/LoadingScreen';
+import SpaceEffect from '@/components/SpaceEffect';
 import { useAudio, useMemeElements } from '@/hooks';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [isCleaning, setIsCleaning] = useState(false);
   const { initAudio, playHitSound, playDisappearSound } = useAudio();
-  const { memeElements, fogEffects, containerRef, cleanAllElements, removeFogEffect } = useMemeElements(isCleaning, playDisappearSound);
+  const { memeElements, fogEffects, explosionEffects, containerRef, cleanAllElements, removeFogEffect, removeExplosionEffect, handleMemeElementClick } = useMemeElements(isCleaning, playDisappearSound);
 
   // Initialize audio
   useEffect(() => {
@@ -55,10 +55,11 @@ export default function Home() {
   return (
     <div ref={containerRef} className="relative w-full h-screen overflow-hidden bg-black">
       <SpaceEffect />
+      <TunnelEffect />
       <Background />
       <MagicalOrbs />
       <ScanlineEffect />
-      <MouseTail isActive={!isLoading} />
+      {/* <MouseTail isActive={!isLoading} /> */}
       <CentralBranding isCleaning={isCleaning} onCleanClick={handleCleanClick} />
       
       {memeElements.map((element) => (
@@ -73,6 +74,7 @@ export default function Home() {
           alt={element.alt}
           opacity={element.opacity}
           isHit={element.isHit}
+          onClick={handleMemeElementClick}
         />
       ))}
 

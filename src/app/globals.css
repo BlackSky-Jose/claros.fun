@@ -113,7 +113,7 @@ body {
   }
   to {
     opacity: 0;
-    transform: scale(0.8) rotate(-180deg);
+    transform: scale(0.3) rotate(-180deg);
   }
 }
 
@@ -1520,3 +1520,4 @@ body {
 .button-main span:nth-child(4) {
   transform: rotateX(90deg) translateZ(30px);
 } 
+

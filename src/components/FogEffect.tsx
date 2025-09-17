@@ -27,39 +27,39 @@ const FogEffect: React.FC<FogEffectProps> = ({ x, y, size, duration = 2000, onCo
     <div
       className="absolute pointer-events-none"
       style={{
-        left: `${x - size / 4}px`,
-        top: `${y - size / 4}px`,
-        width: `${size/3}px`,
-        height: `${size/3}px`,
+        left: `${x - size / 6}px`,
+        top: `${y - size / 5}px`,
+        width: `${size/5}px`,
+        height: `${size/5}px`,
         zIndex: 5,
       }}
     >
       <div
-        className="w-full h-full rounded-full opacity-30"
+        className="w-full h-full rounded-full opacity-5"
         style={{
-          background: 'radial-gradient(circle, rgba(255, 102, 0, 0.12) 0%, rgba(255, 149, 0, 0.26) 20%, rgba(255, 200, 0, 0.5) 40%, rgba(200, 50, 0, 0.22) 60%,rgba(100, 0, 0, 0.23)) 80%, rgba(0, 0, 0, 0.06) 100%)',
+          background: 'radial-gradient(circle, rgba(223, 220, 219, 0.04) 0%, rgba(97, 97, 97, 0.14) 20%, rgba(247, 247, 247, 0.13) 40%, rgba(51, 51, 51, 0.04) 60%,rgba(241, 241, 241, 0.05)) 80%, rgba(226, 223, 223, 0.06) 100%)',
           animation: 'fogExpand 0.8s ease-out forwards',
           filter: 'blur(0.5px)',
-          boxShadow: '0 0 30px rgba(255, 102, 0, 0.15), 0 0 60px rgba(255, 150, 0, 0.5), 0 0 90px rgba(255, 200, 0, 0.2)',
+          boxShadow: '0 0 30px rgba(92, 91, 91, 0.05), 0 0 60px rgba(82, 82, 82, 0.11), 0 0 90px rgba(102, 102, 102, 0.1)',
         }}
       />
       <div
-        className="absolute inset-0 w-full h-full rounded-full opacity-60"
+        className="absolute inset-0 w-full h-full rounded-full opacity-3"
         style={{
-          background: 'radial-gradient(circle, rgba(255, 200, 0, 0.31) 0%, rgba(255, 102, 0, 0.07) 30%, rgba(200, 50, 0, 0.14) 60%, rgba(100, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0.1) 100%)',
+          background: 'radial-gradient(circle, rgba(77, 77, 77, 0.11) 0%rgba(54, 54, 54, 0.07)7) 30%, rgba(202, 202, 202, 0.09) 60%, rgba(97, 97, 97, 0.18) 80%, rgba(255, 229, 229, 0.1) 100%)',
           animation: 'fogExpand 0.8s ease-out forwards',
           filter: 'blur(1px)',
-          transform: 'scale(1.2)',
+          transform: 'scale(1)',
         }}
       />
       {/* Fire explosion particles */} 
       <div 
-        className="absolute inset-0 w-full h-full rounded-full opacity-40" 
+        className="absolute inset-0 w-full h-full rounded-full opacity-10" 
         style={{ 
-          background: 'radial-gradient(circle, rgba(255, 255, 0, 0.12) 0%, rgba(255, 149, 0, 0.23) 25%, rgba(255, 51, 0, 0.2) 50%, rgba(150, 0, 0, 0.13) 75%, rgba(0, 0, 0, 0.24) 100%)',
+          background: 'radial-gradient(circle, rgba(112, 112, 112, 0.03) 0%, rgba(158, 158, 158, 0.07) 25%, rgba(99, 99, 99, 0.11) 50%, rgba(241, 241, 241, 0.13) 75%, rgba(252, 251, 219, 0.14) 100%)',
           animation: 'fogExpand 0.8s ease-out forwards',
           filter: 'blur(1.5px)',
-          transform: 'scale(1.5)',
+          transform: 'scale(1.2)',
         }}
       />
     </div>

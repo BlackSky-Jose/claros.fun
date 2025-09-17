@@ -19,7 +19,6 @@ const ScanlineEffect: React.FC = () => {
           zIndex: 1,
         }}
       />
-      
     </>
   );
 };

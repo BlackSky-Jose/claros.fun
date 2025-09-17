@@ -31,13 +31,30 @@ export interface FogEffect {
   size: number;
 }
 
+export interface ExplosionEffect {
+  id: string;
+  x: number;
+  y: number;
+  size: number;
+  createdAt: number;
+}
+
 
 const MEME_IMAGES = [
+  'https://cdn.discordapp.com/attachments/1177655125012119603/1417635167731712010/crying_arabist_wojak.png?ex=68cb3322&is=68c9e1a2&hm=b31ea1c94d15ce420b5dd2bd13a7b72b1098ea556f1133d27083228c1dd4490f&',
+  'https://cdn.discordapp.com/attachments/1177655125012119603/1417635167387783348/13239-jeet.png?ex=68cb3322&is=68c9e1a2&hm=0bce3cf1732157c580390525fc33209f1df798d50ff0e41b2f58253f324d2d76&',
+  'https://cdn.discordapp.com/attachments/1177655125012119603/1417635167002165268/dfbq3d8-d327b451-ef05-494a-b455-32c0156e6a18.png?ex=68cb3322&is=68c9e1a2&hm=2c8e946d00c0682aaec1b4d1bef9f22f656b9cde5b9174fbc877279a205a4786&',
+  'https://cdn.discordapp.com/attachments/1177655125012119603/1417635166716690522/328-3289174_trans-pride-flag-pixel-car-transparent.png?ex=68cb3322&is=68c9e1a2&hm=e10fe5a77d7db4b4cf4a4b5341ab0715cb13856d91c7b87a85d886831114aee7&',
+  'https://cdn.discordapp.com/attachments/1177655125012119603/1417635165106077736/donald_trump_finger_raise_meme_wojak.png?ex=68cb3321&is=68c9e1a1&hm=d5d61010f4dcdbd0c4c3cbe3a0f805004572cd26aff4e95cda3f258998648df1&',
+  'https://cdn.discordapp.com/attachments/1177655125012119603/1417635166406316072/Tung-Tung-Tung-Sahur-TikTok-Meme-Character-Transparent.png?ex=68cb3322&is=68c9e1a2&hm=205560567c828eefea78dcae6622d9d7880bf8132bf92137eeb1af6fcada62ec&',
+  'https://cdn.discordapp.com/attachments/1177655125012119603/1417635165878091848/Brr-Brr-Patapim-Viral-TikTok-Meme.png?ex=68cb3321&is=68c9e1a1&hm=c2fa2a671e612962177b5fe1dc6aff65ba04a1aa5d6224c59daf405d04fdd574&',
   'https://static.wikia.nocookie.net/muc/images/2/22/Pepthefrog.png',
   'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Republicanlogo.svg/1200px-Republicanlogo.svg.png',
   'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/DemocraticLogo.svg/250px-DemocraticLogo.svg.png',
   'https://specials-images.forbesimg.com/imageserve/6890d9978dc6d3c0d4c53d38/960x0.png',
   'https://i.imgflip.com/73qvau.png',
+  'https://cdn.discordapp.com/attachments/1177655125012119603/1417635168545411245/solana-sol-logo.png?ex=68cb3322&is=68c9e1a2&hm=c1349a59b9a13ea01becf00fb7b5ef3a2fc9ce0d17d2094433d961403b0512d5&',
+  'https://cdn.discordapp.com/attachments/1177655125012119603/1417635168084295851/pixel-art-1685476982.png?ex=68cb3322&is=68c9e1a2&hm=0f7e692d2c34c84962c4314e7b684921bb5e1bba5ab5f4cda95bde351aa18b39&',
 ];
 
 
@@ -45,6 +62,7 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
   const [memeElements, setMemeElements] = useState<MemeElement[]>([]);
   const [hitMarkers, setHitMarkers] = useState<HitMarker[]>([]);
   const [fogEffects, setFogEffects] = useState<FogEffect[]>([]);
+  const [explosionEffects, setExplosionEffects] = useState<ExplosionEffect[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const generateMemeElement = (): MemeElement => {
@@ -78,16 +96,34 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
   // Generate random meme elements
   useEffect(() => {
     const interval = setInterval(() => {
-      if (!isCleaning) {
-        const newElement = generateMemeElement();
-        console.log('Generated new meme element:', newElement);
-        setMemeElements(prev => {
-          const updated = [...prev, newElement];
-          console.log('Total meme elements:', updated.length);
-          return updated;
-        });
+      const newElement = generateMemeElement();
+      console.log('Generated new meme element:', newElement);
+      setMemeElements(prev => {
+        const updated = [...prev, newElement];
+        console.log('Total meme elements:', updated.length);
+        return updated;
+      });
 
-        // Remove element after duration with fog effect
+      if (isCleaning) {
+        // In purging mode: explode after 0.3 seconds
+        setTimeout(() => {
+          setMemeElements(prev => {
+            const element = prev.find(el => el.id === newElement.id);
+            if (element) {
+              // Add explosion effect
+              addExplosionEffect(element.x + element.size / 2, element.y + element.size / 2, element.size);
+              // Add fog effect
+              addFogEffect(element.x + element.size / 2, element.y + element.size / 2, element.size);
+              // Play disappear sound
+              if (playDisappearSound) {
+                playDisappearSound();
+              }
+            }
+            return prev.filter(el => el.id !== newElement.id);
+          });
+        }, 800); // 0.8 seconds
+      } else {
+        // Normal mode: remove element after duration with fog effect
         setTimeout(() => {
           setMemeElements(prev => {
             const element = prev.find(el => el.id === newElement.id);
@@ -103,12 +139,12 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
           });
         }, newElement.duration);
       }
-    }, 1000); // New meme every 3 seconds
+    }, 1000); // New meme every 1 second
 
     return () => clearInterval(interval);
   }, [isCleaning, playDisappearSound]);
 
-  // Auto-remove new elements in cleaning mode
+  // Auto-remove new elements in cleaning mode (backup cleanup)
   useEffect(() => {
     if (isCleaning) {
       const interval = setInterval(() => {
@@ -116,10 +152,10 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
           const now = Date.now();
           return prev.filter(el => {
             const age = now - el.createdAt;
-            return age < 500; // Keep elements less than 0.5 seconds old
+            return age < 1000; // Keep elements less than 1 second old (backup cleanup)
           });
         });
-      }, 50);
+      }, 1000);
 
       return () => clearInterval(interval);
     }
@@ -175,6 +211,43 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
     setFogEffects(prev => prev.filter(fog => fog.id !== id));
   };
 
+  const addExplosionEffect = (x: number, y: number, size: number) => {
+    const explosionId = Math.random().toString(36).substr(2, 9);
+    console.log('Adding explosion effect at:', x, y, 'ID:', explosionId, 'Size:', size);
+    
+    setExplosionEffects(prev => [...prev, {
+      id: explosionId,
+      x,
+      y,
+      size: size * 1.5,
+      createdAt: Date.now(),
+    }]);
+  };
+
+  const removeExplosionEffect = (id: string) => {
+    console.log('Removing explosion effect:', id);
+    setExplosionEffects(prev => prev.filter(explosion => explosion.id !== id));
+  };
+
+  const handleMemeElementClick = (elementId: string) => {
+    const element = memeElements.find(el => el.id === elementId);
+    if (element) {
+      // Add explosion effect
+      addExplosionEffect(element.x + element.size / 2, element.y + element.size / 2, element.size);
+      
+      // Add fog effect
+      addFogEffect(element.x + element.size / 2, element.y + element.size / 2, element.size);
+      
+      // Play hit sound
+      if (playDisappearSound) {
+        playDisappearSound();
+      }
+      
+      // Remove the element
+      setMemeElements(prev => prev.filter(el => el.id !== elementId));
+    }
+  };
+
   const cleanAllElements = () => {
     setMemeElements(prev => {
       // Add fog effects for all elements when cleaning
@@ -203,8 +276,11 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
     memeElements,
     hitMarkers,
     fogEffects,
+    explosionEffects,
     containerRef,
     cleanAllElements,
     removeFogEffect,
+    removeExplosionEffect,
+    handleMemeElementClick,
   };
 };

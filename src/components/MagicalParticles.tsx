@@ -48,6 +48,7 @@ const MagicalParticles: React.FC = () => {
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <div className="h-2"></div>
       {particles.map((particle) => (
         <div
           key={particle.id}
