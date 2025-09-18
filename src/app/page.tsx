@@ -11,8 +11,8 @@ import { useAudio, useMemeElements } from '@/hooks';
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [isCleaning, setIsCleaning] = useState(false);
-  const { initAudio, playHitSound, playDisappearSound, playHitmarkerSound } = useAudio();
-  const { memeElements, hitMarkers, fogEffects, explosionEffects, containerRef, cleanAllElements, removeFogEffect, removeExplosionEffect, handleMemeElementClick } = useMemeElements(isCleaning, playDisappearSound, playHitmarkerSound);
+  const { initAudio, playHitSound, playDisappearSound, playHitmarkerSound, playFadeSound } = useAudio();
+  const { memeElements, hitMarkers, fogEffects, explosionEffects, containerRef, cleanAllElements, removeFogEffect, removeExplosionEffect, handleMemeElementClick } = useMemeElements(isCleaning, playDisappearSound, playHitmarkerSound, playFadeSound);
 
   // Initialize audio
   useEffect(() => {

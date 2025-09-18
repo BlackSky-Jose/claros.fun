@@ -89,7 +89,7 @@ const MEME_IMAGES = [
   "./meme/o.webp",
 ];
 
-export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => void, playHitmarkerSound?: () => void) => {
+export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => void, playHitmarkerSound?: () => void, playFadeSound?: () => void) => {
   const [memeElements, setMemeElements] = useState<MemeElement[]>([]);
   const [hitMarkers, setHitMarkers] = useState<HitMarker[]>([]);
   const [fogEffects, setFogEffects] = useState<FogEffect[]>([]);
@@ -163,26 +163,35 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
           }, 500);
         }, 1300); // 0.3s (animation) + 0.6s (stay) = 0.9s total
       } else {
-        // Normal mode: remove element after duration with fog effect
+        // Normal mode: slow fade out with fade sound
         setTimeout(() => {
           setMemeElements(prev => {
             const element = prev.find(el => el.id === newElement.id);
             if (element) {
-              // Add fog effect when element disappears
-              addFogEffect(element.x + element.size / 2, element.y + element.size / 2, element.size);
-              // Play disappear sound
-              if (playDisappearSound) {
-                playDisappearSound();
+              // Play fade sound when element starts fading out
+              if (playFadeSound) {
+                playFadeSound();
               }
+              // Start slow fade out
+              return prev.map(el => 
+                el.id === newElement.id 
+                  ? { ...el, opacity: 0, isHit: true }
+                  : el
+              );
             }
-            return prev.filter(el => el.id !== newElement.id);
+            return prev;
           });
+          
+          // Remove element after fade animation
+          setTimeout(() => {
+            setMemeElements(prev => prev.filter(el => el.id !== newElement.id));
+          }, 1000); // 1 second slow fade out
         }, newElement.duration);
       }
     }, 1000); // New meme every 1 second
 
     return () => clearInterval(interval);
-  }, [isCleaning, playDisappearSound]);
+  }, [isCleaning, playDisappearSound, playFadeSound]);
 
   // Auto-remove new elements in cleaning mode (backup cleanup)
   useEffect(() => {

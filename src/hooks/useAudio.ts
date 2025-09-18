@@ -72,5 +72,17 @@ export const useAudio = () => {
     }
   }, []);
 
-  return { initAudio, playHitSound, playDisappearSound, playHitmarkerSound };
+  const playFadeSound = useCallback(() => {
+    try {
+      const audio = new Audio('/fade.mp3');
+      audio.volume = 0.2;
+      audio.play().catch(() => {
+        console.log('Fade sound file playback failed');
+      });
+    } catch {
+      console.log('Fade sound file not found or failed to load');
+    }
+  }, []);
+
+  return { initAudio, playHitSound, playDisappearSound, playHitmarkerSound, playFadeSound };
 };
