@@ -42,12 +42,12 @@ export interface ExplosionEffect {
 
 
 const MEME_IMAGES = [
-  "https://gateway.lighthouse.storage/ipfs/bafybeie2rwtagry42iccboksu6sllmeszxdegevesnojpqed3j4n24cq2a/1.png",
-  "https://gateway.lighthouse.storage/ipfs/bafybeie2rwtagry42iccboksu6sllmeszxdegevesnojpqed3j4n24cq2a/7.png",
+  "https://gateway.lighthouse.storage/ipfs/bafybeifeh3mrz56zvaygzedlol3sez7keyko3bpmwsywfzhpumew527moa/1.png",
+  "https://gateway.lighthouse.storage/ipfs/bafybeifeh3mrz56zvaygzedlol3sez7keyko3bpmwsywfzhpumew527moa/7.png",
   'https://cdn.discordapp.com/attachments/1177655125012119603/1417635167731712010/crying_arabist_wojak.png?ex=68cb3322&is=68c9e1a2&hm=b31ea1c94d15ce420b5dd2bd13a7b72b1098ea556f1133d27083228c1dd4490f&',
   'https://cdn.discordapp.com/attachments/1177655125012119603/1417635167387783348/13239-jeet.png?ex=68cb3322&is=68c9e1a2&hm=0bce3cf1732157c580390525fc33209f1df798d50ff0e41b2f58253f324d2d76&',
-  "https://gateway.lighthouse.storage/ipfs/bafybeie2rwtagry42iccboksu6sllmeszxdegevesnojpqed3j4n24cq2a/3.png",
-  "https://gateway.lighthouse.storage/ipfs/bafybeie2rwtagry42iccboksu6sllmeszxdegevesnojpqed3j4n24cq2a/2.png",
+  "https://gateway.lighthouse.storage/ipfs/bafybeifeh3mrz56zvaygzedlol3sez7keyko3bpmwsywfzhpumew527moa/3.png",
+  "https://gateway.lighthouse.storage/ipfs/bafybeifeh3mrz56zvaygzedlol3sez7keyko3bpmwsywfzhpumew527moa/2.png",
   'https://cdn.discordapp.com/attachments/1177655125012119603/1417635165878091848/Brr-Brr-Patapim-Viral-TikTok-Meme.png?ex=68cb3321&is=68c9e1a1&hm=c2fa2a671e612962177b5fe1dc6aff65ba04a1aa5d6224c59daf405d04fdd574&',
   'https://static.wikia.nocookie.net/muc/images/2/22/Pepthefrog.png',
   'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Republicanlogo.svg/1200px-Republicanlogo.svg.png',
@@ -55,9 +55,9 @@ const MEME_IMAGES = [
   'https://cdn.discordapp.com/attachments/1177655125012119603/1417635166716690522/328-3289174_trans-pride-flag-pixel-car-transparent.png?ex=68cb3322&is=68c9e1a2&hm=e10fe5a77d7db4b4cf4a4b5341ab0715cb13856d91c7b87a85d886831114aee7&',
   'https://cdn.discordapp.com/attachments/1177655125012119603/1417635165106077736/donald_trump_finger_raise_meme_wojak.png?ex=68cb3321&is=68c9e1a1&hm=d5d61010f4dcdbd0c4c3cbe3a0f805004572cd26aff4e95cda3f258998648df1&',
   'https://cdn.discordapp.com/attachments/1177655125012119603/1417635166406316072/Tung-Tung-Tung-Sahur-TikTok-Meme-Character-Transparent.png?ex=68cb3322&is=68c9e1a2&hm=205560567c828eefea78dcae6622d9d7880bf8132bf92137eeb1af6fcada62ec&',
-  "https://gateway.lighthouse.storage/ipfs/bafybeie2rwtagry42iccboksu6sllmeszxdegevesnojpqed3j4n24cq2a/6.png",
-  "https://gateway.lighthouse.storage/ipfs/bafybeie2rwtagry42iccboksu6sllmeszxdegevesnojpqed3j4n24cq2a/5.png",
-  "https://gateway.lighthouse.storage/ipfs/bafybeie2rwtagry42iccboksu6sllmeszxdegevesnojpqed3j4n24cq2a/4.png",
+  "https://gateway.lighthouse.storage/ipfs/bafybeifeh3mrz56zvaygzedlol3sez7keyko3bpmwsywfzhpumew527moa/6.png",
+  "https://gateway.lighthouse.storage/ipfs/bafybeifeh3mrz56zvaygzedlol3sez7keyko3bpmwsywfzhpumew527moa/5.png",
+  "https://gateway.lighthouse.storage/ipfs/bafybeifeh3mrz56zvaygzedlol3sez7keyko3bpmwsywfzhpumew527moa/4.png",
   'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/DemocraticLogo.svg/250px-DemocraticLogo.svg.png',
   'https://specials-images.forbesimg.com/imageserve/6890d9978dc6d3c0d4c53d38/960x0.png',
   'https://i.imgflip.com/73qvau.png',
@@ -78,7 +78,7 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
     if (!container) return {} as MemeElement;
 
     const containerRect = container.getBoundingClientRect();
-    const size = Math.random() * 100 + 30; // 30-130px
+    const size = Math.random() * 110 + 60; // 30-130px
     const x = Math.random() * (containerRect.width - size);
     const y = Math.random() * (containerRect.height - size);
     const rotation = Math.random() * 180 - 10; // Gentle rotation between -30 and +30 degrees

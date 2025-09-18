@@ -3,6 +3,8 @@ import React from 'react';
 const TunnelEffect: React.FC = () => {
   return (
     <div className="tunnel-effect">
+              <div className="back z-1 "></div>
+
       <style jsx>{`
         .tunnel-effect {
           position: absolute;
@@ -39,12 +41,21 @@ const TunnelEffect: React.FC = () => {
         }
 
         .side {
-          width: calc(20 * 10vmin);
-          height: 100vmin;
+          width: calc(10 * 5vmin);
+          height: 50vmin;
           display: flex;
           position: absolute;
-          left: -50%;
+          left: 0%;
         }
+          .back {
+            margin-top: 19vmin;
+            width: 400vmin;
+            height: 30vmin;
+            background: rgba(0, 0, 0, 0.81);
+            box-shadow: 0 0 40px 40px rgba(0, 0, 0, 0.86);
+            
+
+          }
 
         .side:nth-child(1) {
           transform: rotateY(90deg) translateZ(50vmin) translateX(50%);
@@ -63,10 +74,10 @@ const TunnelEffect: React.FC = () => {
         }
 
         .side:nth-child(5) {
-          width: 100vmin;
+          width: 400vmin;
           box-shadow:
-            0px 0px 20vmin 10vmin rgba(55, 238, 146, 0.56),
-            inset 0px 0px 50vmin 20vmin rgba(18, 109, 71, 0.44);
+            0px 0px 40vmin 40vmin rgba(184, 40, 40, 0.72),
+            inset 0px 0px 50vmin 20vmin rgba(0, 0, 0, 0.69);
           transform: translateZ(calc(-20 * 10vmin)) translateX(50%);
         }
 
@@ -77,9 +88,9 @@ const TunnelEffect: React.FC = () => {
         .square {
           width: 20vmin;
           aspect-ratio: 1;
-          border: 2px solid rgb(97, 255, 83);
-          filter: blur(3px);
-          box-shadow: 0 0 12px 12px rgba(3, 168, 39, 0.46);
+          border: 2px solid rgb(114, 253, 72);
+          filter: blur(2px);
+          box-shadow: 0 0 20px 20px rgba(3, 168, 39, 0.2);
         }
 
         @keyframes moveTunnel {
@@ -92,16 +103,16 @@ const TunnelEffect: React.FC = () => {
         }
 
         @keyframes highlight {
-          99% {
-            transform: translateZ(0) translateX(50%);
+          0% {
+            transform: translateZ(0) translateX(30%);
             opacity: 1;
-          }
-          100% {
-            transform: translateX(0) translateX(50%);
-            opacity: 0;
-          }
-        }
-      `}</style>
+            }
+            0% {
+              transform: translateX(0) translateX(50%);
+              opacity: 0;
+              }
+              }
+              `}</style>
       
       <div className="scene">
         <div className="wrapper">
@@ -132,7 +143,7 @@ const TunnelEffect: React.FC = () => {
             <div className="side">
               {Array.from({ length: 23 }, (_, i) => (
                 <div key={i} className="stroke">
-                  {Array.from({ length: 70 }, (_, j) => (
+                  {Array.from({ length: 40 }, (_, j) => (
                     <div key={j} className="square"></div>
                   ))}
                 </div>
@@ -143,7 +154,7 @@ const TunnelEffect: React.FC = () => {
             <div className="side">
               {Array.from({ length: 22 }, (_, i) => (
                 <div key={i} className="stroke">
-                  {Array.from({ length: 70 }, (_, j) => (
+                  {Array.from({ length: 40 }, (_, j) => (
                     <div key={j} className="square"></div>
                   ))}
                 </div>
