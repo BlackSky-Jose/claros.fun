@@ -13,7 +13,7 @@ const TunnelEffect: React.FC = () => {
         }
 
         .scene {
-          width: 100vmin;
+          width: 700vmin;
           height: 100vmin;
           perspective: 75vmin;
           position: absolute;
@@ -75,10 +75,11 @@ const TunnelEffect: React.FC = () => {
         }
 
         .square {
-          width: 10vmin;
+          width: 20vmin;
           aspect-ratio: 1;
-          border: 2px solid rgb(160, 255, 7);
+          border: 2px solid rgb(97, 255, 83);
           filter: blur(3px);
+          box-shadow: 0 0 12px 12px rgba(3, 168, 39, 0.46);
         }
 
         @keyframes moveTunnel {
@@ -109,7 +110,7 @@ const TunnelEffect: React.FC = () => {
             <div className="side">
               {Array.from({ length: 22 }, (_, i) => (
                 <div key={i} className="stroke">
-                  {Array.from({ length: 10 }, (_, j) => (
+                  {Array.from({ length: 0 }, (_, j) => (
                     <div key={j} className="square"></div>
                   ))}
                 </div>
@@ -120,7 +121,7 @@ const TunnelEffect: React.FC = () => {
             <div className="side">
               {Array.from({ length: 22 }, (_, i) => (
                 <div key={i} className="stroke">
-                  {Array.from({ length: 10 }, (_, j) => (
+                  {Array.from({ length: 0 }, (_, j) => (
                     <div key={j} className="square"></div>
                   ))}
                 </div>
@@ -129,9 +130,9 @@ const TunnelEffect: React.FC = () => {
             
             {/* Side 3 */}
             <div className="side">
-              {Array.from({ length: 22 }, (_, i) => (
+              {Array.from({ length: 23 }, (_, i) => (
                 <div key={i} className="stroke">
-                  {Array.from({ length: 10 }, (_, j) => (
+                  {Array.from({ length: 70 }, (_, j) => (
                     <div key={j} className="square"></div>
                   ))}
                 </div>
@@ -142,7 +143,7 @@ const TunnelEffect: React.FC = () => {
             <div className="side">
               {Array.from({ length: 22 }, (_, i) => (
                 <div key={i} className="stroke">
-                  {Array.from({ length: 10 }, (_, j) => (
+                  {Array.from({ length: 70 }, (_, j) => (
                     <div key={j} className="square"></div>
                   ))}
                 </div>
@@ -150,7 +151,7 @@ const TunnelEffect: React.FC = () => {
             </div>
             
             {/* Highlight side */}
-            <div className="side highlight"></div>
+            {/* <div className="side highlight"></div> */}
           </div>
         </div>
       </div>
