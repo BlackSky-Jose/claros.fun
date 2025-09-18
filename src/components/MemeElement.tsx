@@ -150,14 +150,14 @@ const MemeElement: React.FC<MemeElementProps> = ({
       onClick={handleClick}
     >
       {/* Ripple Effect */}
-      <div 
+      {/* <div 
         className="absolute inset-0 ripple-effect pointer-events-none"
         style={{
           background: 'radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%)',
           borderRadius: '50%',
           zIndex: 1,
         }}
-      />
+      /> */}
       
       <div className="relative w-full h-full" style={{ zIndex: 2 }}>
         {imageError ? (
