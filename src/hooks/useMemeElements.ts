@@ -141,6 +141,12 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
           setMemeElements(prev => {
             const element = prev.find(el => el.id === newElement.id);
             if (element) {
+              // Add fog effect when element disappears in purging mode
+              addFogEffect(element.x + element.size / 2, element.y + element.size / 2, element.size);
+              // Play disappear sound in purging mode
+              if (playDisappearSound) {
+                playDisappearSound();
+              }
               // Start fade out after staying visible for 0.6s
               return prev.map(el => 
                 el.id === newElement.id 

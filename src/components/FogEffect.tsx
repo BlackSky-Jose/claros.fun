@@ -27,8 +27,8 @@ const FogEffect: React.FC<FogEffectProps> = ({ x, y, size, duration = 2000, onCo
     <div
       className="absolute pointer-events-none"
       style={{
-        left: `${x - size /3}px`,
-        top: `${y - size / 3}px`,
+        left: `${x - size /5}px`,
+        top: `${y - size / 4}px`,
         width: `${size/3}px`,
         height: `${size/3}px`,
         zIndex: 5,
