@@ -147,8 +147,8 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
             background: `
               linear-gradient(135deg, 
                 rgba(0, 0, 0, 0.9) 0%, 
-                rgba(20, 20, 30, 0.95) 50%, 
-                rgba(0, 0, 0, 1) 100%
+                rgba(49, 34, 27, 0.95) 50%, 
+                rgb(17, 5, 1) 100%
               )
             `,
           }}
@@ -193,7 +193,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
               : `0 15px 35px rgba(0, 0, 0, var(--shadow-opacity)), inset 0 1px 0 rgba(255, 102, 0, var(--glow-opacity))`,
             background: isTransitioning 
               ? 'radial-gradient(circle at center, rgba(255, 102, 0, 0.15) 0%, rgba(255, 102, 0, 0.08) 50%, rgba(255, 102, 0, 0.02) 100%)'
-              : 'linear-gradient(135deg, rgba(255, 102, 0, 0.08) 0%, rgba(255, 102, 0, 0.04) 100%)',
+              : 'linear-gradient(135deg, rgba(255, 94, 0, 0.08) 0%, rgba(255, 102, 0, 0.04) 100%)',
             borderColor: `rgba(255, 102, 0, var(--border-opacity))`,
             
             // Smooth transition for all properties - slow start, then aggressive
@@ -215,12 +215,16 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
             {/* Title */}
             <div className="mb-8">
               <h1 
-                className="text-6xl md:text-8xl font-bold text-white tracking-wider"
+                className="text-7xl md:text-9xl font-black text-white tracking-tight"
                 style={{
-                  fontFamily: 'system-ui, -apple-system, sans-serif',
-                  fontWeight: 300,
-                  letterSpacing: '0.1em',
-                  textShadow: '0 0 30px rgba(255, 255, 255, 0.3)',
+                  fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+                  fontWeight: 900,
+                  letterSpacing: '-0.02em',
+                  color: '#ffffff',
+                  textShadow: '4px 4px 4px rgb(214, 97, 1)',
+                  WebkitTextStroke: '4px #000000',
+                  WebkitTextFillColor: '#ffffff',
+                  filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.8)) drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6))',
                 }}
               >
                 CLAROS.FUN

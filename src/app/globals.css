@@ -1310,7 +1310,7 @@ html {
   z-index: 10;
   font-size: 2.5rem;
   font-weight: bold;
-  color: #4a5568;
+  color: #ff6600;
   text-shadow: none;
   font-family: 'Courier New', monospace;
 }
@@ -1365,7 +1365,7 @@ body {
   place-self: center;
   clip-path: circle(49%);
   animation: p 10s steps(100) infinite;
-  color: hsl(calc(var(--p) * 2), 100%, 65%);
+  color: hsl(calc(15 + var(--p) * 0.5), 100%, calc(60% + var(--p) * 0.2%));
 }
 
 /* pseudo elements overlayed in same grid cell */
@@ -1496,17 +1496,17 @@ body {
   justify-content: center;
   color: #ffffff;
   font-weight: bold;
-  background: linear-gradient(135deg, rgba(51, 37, 17, 0.904) 0%, rgba(128, 20, 1, 0.9) 25%, rgba(250, 121, 0, 0.85) 50%, rgba(50, 50, 50, 0.8) 75%, rgba(30, 30, 30, 0.9) 100%);
+  background: linear-gradient(135deg, rgba(51, 37, 17, 0.904) 0%, rgba(128, 20, 1, 0.9) 25%, rgba(250, 92, 0, 0.85) 50%, #120c00a6 75%, #120c00 100%);
   font-family: sans-serif;
   text-transform: uppercase;
   font-size: 25px;
   letter-spacing: 2px;
   transition: 0.5s;
-  border: 2px solid rgba(236, 73, 24, 0.616);
+  border: 2px solid rgba(126, 76, 61, 0.616);
   box-shadow: 
-    0 0 10px rgba(255, 163, 156, 0.685),
-    0 0 20px rgba(170, 158, 156, 0.63),
-    0 0 30px rgba(150, 150, 150, 0.651),
+    0 0 5px rgba(255, 163, 156, 0.685),
+    0 0 10px rgba(170, 158, 156, 0.63),
+    0 0 15px rgba(150, 150, 150, 0.651),
     inset 0 1px 0 rgba(255, 145, 1, 0.2);
   box-sizing: border-box;
   box-shadow: insert 0 20px 50px rgba(0, 0, 0, 0.2);
