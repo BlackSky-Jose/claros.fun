@@ -76,7 +76,7 @@ const TunnelEffect: React.FC = () => {
         .side:nth-child(5) {
           width: 400vmin;
           box-shadow:
-            0px 0px 40vmin 40vmin rgba(184, 40, 40, 0.72),
+            0px 0px 40vmin 40vmin rgba(255, 102, 0, 0.4),
             inset 0px 0px 50vmin 20vmin rgba(0, 0, 0, 0.69);
           transform: translateZ(calc(-20 * 10vmin)) translateX(50%);
         }
@@ -88,9 +88,9 @@ const TunnelEffect: React.FC = () => {
         .square {
           width: 20vmin;
           aspect-ratio: 1;
-          border: 2px solid rgb(114, 253, 72);
+          border: 2px solid rgb(255, 133, 51);
           filter: blur(2px);
-          box-shadow: 0 0 20px 20px rgba(3, 168, 39, 0.2);
+          box-shadow: 0 0 20px 20px rgba(255, 102, 0, 0.3);
         }
 
         @keyframes moveTunnel {

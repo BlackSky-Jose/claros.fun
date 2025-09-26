@@ -40,7 +40,7 @@ const MagicalSparkles: React.FC<MagicalSparklesProps> = ({ x, y, size, isActive 
         return newSparkles
           .map(s => ({
             ...s,
-            rotation: s.rotation ,
+            rotation: s.rotation + 10,
             life: s.life + 1,
           }))
           .filter(s => s.life < s.maxLife);

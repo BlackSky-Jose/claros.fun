@@ -189,12 +189,12 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
             justifyContent: 'center',
             transform: `perspective(1000px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(${isTransitioning ? '10' : '1'})`,
             boxShadow: isTransitioning 
-              ? `0 0 60px rgba(255, 183, 77, var(--glow-opacity)), 0 25px 50px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 183, 77, 0.2)`
-              : `0 15px 35px rgba(0, 0, 0, var(--shadow-opacity)), inset 0 1px 0 rgba(255, 183, 77, var(--glow-opacity))`,
+              ? `0 0 60px rgba(255, 102, 0, var(--glow-opacity)), 0 25px 50px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 102, 0, 0.2)`
+              : `0 15px 35px rgba(0, 0, 0, var(--shadow-opacity)), inset 0 1px 0 rgba(255, 102, 0, var(--glow-opacity))`,
             background: isTransitioning 
-              ? 'radial-gradient(circle at center, rgba(255, 183, 77, 0.15) 0%, rgba(255, 183, 77, 0.08) 50%, rgba(255, 183, 77, 0.02) 100%)'
-              : 'linear-gradient(135deg, rgba(255, 183, 77, 0.08) 0%, rgba(255, 183, 77, 0.04) 100%)',
-            borderColor: `rgba(255, 183, 77, var(--border-opacity))`,
+              ? 'radial-gradient(circle at center, rgba(255, 102, 0, 0.15) 0%, rgba(255, 102, 0, 0.08) 50%, rgba(255, 102, 0, 0.02) 100%)'
+              : 'linear-gradient(135deg, rgba(255, 102, 0, 0.08) 0%, rgba(255, 102, 0, 0.04) 100%)',
+            borderColor: `rgba(255, 102, 0, var(--border-opacity))`,
             
             // Smooth transition for all properties - slow start, then aggressive
             transition: isTransitioning ? 'all 2s cubic-bezier(0.25, 0.1, 0.25, 1.0)' : 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',

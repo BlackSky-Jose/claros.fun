@@ -20,7 +20,7 @@ const MagicalOrbs: React.FC = () => {
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
       size: Math.random() * 100 + 50,
-      color: ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3'][Math.floor(Math.random() * 6)],
+      color: ['#ff6600', '#ff8533', '#ffb366', '#ff9933', '#ffcc66', '#ff4d00'][Math.floor(Math.random() * 6)],
       speed: Math.random() * 0.5 + 0.1,
       direction: Math.random() * Math.PI * 2,
       pulse: Math.random() * Math.PI * 2,

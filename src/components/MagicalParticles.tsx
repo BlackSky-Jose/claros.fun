@@ -21,7 +21,7 @@ const MagicalParticles: React.FC = () => {
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
       size: Math.random() * 4 + 1,
-      color: ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3'][Math.floor(Math.random() * 6)],
+      color: ['#ff6600', '#ff8533', '#ffb366', '#ff9933', '#ffcc66', '#ff4d00'][Math.floor(Math.random() * 6)],
       speed: Math.random() * 2 + 0.5,
       direction: Math.random() * Math.PI * 2,
       life: 0,
@@ -48,7 +48,6 @@ const MagicalParticles: React.FC = () => {
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      <div className="h-2"></div>
       {particles.map((particle) => (
         <div
           key={particle.id}
