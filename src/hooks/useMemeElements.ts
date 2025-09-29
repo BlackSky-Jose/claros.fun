@@ -117,7 +117,7 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
   const [fogEffects, setFogEffects] = useState<FogEffect[]>([]);
   const [explosionEffects, setExplosionEffects] = useState<ExplosionEffect[]>([]);
   const [currentMemeIndex, setCurrentMemeIndex] = useState<number>(0);
-  const [lastSpawnIndex, setLastSpawnIndex] = useState<number>(-1);
+  const [lastPosition, setLastPosition] = useState<{x: number, y: number} | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const generateMemeElement = (): MemeElement => {
@@ -133,18 +133,31 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
     // Move to next meme index, loop back to 0 when we reach the end
     setCurrentMemeIndex((currentMemeIndex + 1) % MEME_IMAGES.length);
     
-    // Get a random spawn point (avoid repeating the same position)
-    let newSpawnIndex;
+    // Get a random spawn point (avoid repeating the same actual position)
+    let spawnPoint;
+    let x: number;
+    let y: number;
+    let attempts = 0;
+    const maxAttempts = 10;
+    
     do {
-      newSpawnIndex = Math.floor(Math.random() * SPAWN_POINTS.length);
-    } while (newSpawnIndex === lastSpawnIndex && SPAWN_POINTS.length > 1);
+      const randomIndex = Math.floor(Math.random() * SPAWN_POINTS.length);
+      spawnPoint = SPAWN_POINTS[randomIndex];
+      
+      // Calculate actual pixel positions from percentages
+      x = (spawnPoint.x * containerRect.width) - (size / 2); // Center the meme on the point
+      y = (spawnPoint.y * containerRect.height) - (size / 2); // Center the meme on the point
+      
+      attempts++;
+    } while (
+      lastPosition && 
+      Math.abs(x - lastPosition.x) < 50 && 
+      Math.abs(y - lastPosition.y) < 50 && 
+      attempts < maxAttempts
+    );
     
-    const spawnPoint = SPAWN_POINTS[newSpawnIndex];
-    setLastSpawnIndex(newSpawnIndex);
-    
-    // Calculate actual pixel positions from percentages
-    const x = (spawnPoint.x * containerRect.width) - (size / 2); // Center the meme on the point
-    const y = (spawnPoint.y * containerRect.height) - (size / 2); // Center the meme on the point
+    // Store the new position
+    setLastPosition({ x, y });
     
     // Limit rotation to prevent upside-down images (-45° to +45°)
     const rotation = Math.random() * 90 - 45; // -45 to +45 degrees
