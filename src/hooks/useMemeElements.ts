@@ -94,8 +94,7 @@ const MEME_IMAGES = [
 const SPAWN_POINTS = [
   // Top row
   { x: 0.08, y: 0.18 }, { x: 0.18, y: 0.1 }, { x: 0.28, y: 0.14 }, { x: 0.45, y: 0.08 }, 
-  { x: 0.65, y: 0.08 }, { x: 0.75, y: 0.15 }, { x: 0.85, y: 0.12 }, { x: 0.92, y: 0.08 },
-  
+  { x: 0.65, y: 0.08 }, { x: 0.75, y: 0.15 }, { x: 0.85, y: 0.12 }, { x: 0.92, y: 0.08 },  
   // Second row  
   { x: 0.05, y: 0.25 }, { x: 0.15, y: 0.22 }, { x: 0.25, y: 0.28 }, { x: 0.78, y: 0.25 }, 
   { x: 0.88, y: 0.22 }, { x: 0.95, y: 0.28 },
@@ -118,6 +117,7 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
   const [fogEffects, setFogEffects] = useState<FogEffect[]>([]);
   const [explosionEffects, setExplosionEffects] = useState<ExplosionEffect[]>([]);
   const [currentMemeIndex, setCurrentMemeIndex] = useState<number>(0);
+  const [lastSpawnIndex, setLastSpawnIndex] = useState<number>(-1);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const generateMemeElement = (): MemeElement => {
@@ -133,8 +133,14 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
     // Move to next meme index, loop back to 0 when we reach the end
     setCurrentMemeIndex((currentMemeIndex + 1) % MEME_IMAGES.length);
     
-    // Get a random spawn point
-    const spawnPoint = SPAWN_POINTS[Math.floor(Math.random() * SPAWN_POINTS.length)];
+    // Get a random spawn point (avoid repeating the same position)
+    let newSpawnIndex;
+    do {
+      newSpawnIndex = Math.floor(Math.random() * SPAWN_POINTS.length);
+    } while (newSpawnIndex === lastSpawnIndex && SPAWN_POINTS.length > 1);
+    
+    const spawnPoint = SPAWN_POINTS[newSpawnIndex];
+    setLastSpawnIndex(newSpawnIndex);
     
     // Calculate actual pixel positions from percentages
     const x = (spawnPoint.x * containerRect.width) - (size / 2); // Center the meme on the point
