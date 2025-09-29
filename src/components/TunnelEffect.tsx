@@ -15,25 +15,25 @@ const TunnelEffect: React.FC = () => {
         }
 
         .scene {
-          width: 700vmin;
-          height: 100vmin;
-          perspective: 75vmin;
+          width: 100vmin;
+          height: 70vmin;
+          perspective: 150vmin;
           position: absolute;
-          top: 40%;
+          top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
           opacity: 0.7;
         }
 
         .wrapper {
-          width: 100vmin;
-          height: 100vmin;
+          width: 50vmin;
+          height: 50vmin;
           transform-style: preserve-3d;
         }
 
         .tunnel {
-          width: 100vmin;
-          height: 100vmin;
+          width: 50vmin;
+          height:50vmin;
           position: relative;
           transform-style: preserve-3d;
           transform: translateZ(50vmin);
@@ -42,41 +42,41 @@ const TunnelEffect: React.FC = () => {
 
         .side {
           width: calc(10 * 5vmin);
-          height: 50vmin;
+          height: 70vmin;
           display: flex;
           position: absolute;
-          left: 0%;
+          left: -400%;
         }
           .back {
-            margin-top: 19vmin;
-            width: 400vmin;
-            height: 30vmin;
-            background: rgba(0, 0, 0, 0.81);
-            box-shadow: 0 0 40px 40px rgba(0, 0, 0, 0.86);
+            margin-top: 6%;
+            width: 440vmin;
+            height: 40vmin;
+            background: rgba(0, 0, 0, 0.91);
+            box-shadow: 0 0 40px 40px rgba(0, 0, 0, 0.92);
             
 
           }
 
         .side:nth-child(1) {
-          transform: rotateY(90deg) translateZ(50vmin) translateX(50%);
+          transform: rotateY(90deg) translateZ(0vmin) translateX(50%);
         }
 
         .side:nth-child(2) {
-          transform: rotateY(90deg) translateZ(-50vmin) translateX(50%);
+          transform: rotateY(90deg) translateZ(-00vmin) translateX(50%);
         }
 
         .side:nth-child(3) {
-          transform: rotateY(90deg) rotateX(90deg) translateZ(50vmin) translateX(50%);
+          transform: rotateY(90deg) rotateX(90deg) translateZ(40vmin) translateX(50%);
         }
 
         .side:nth-child(4) {
-          transform: rotateY(90deg) rotateX(90deg) translateZ(-50vmin) translateX(50%);
+          transform: rotateY(90deg) rotateX(90deg) translateZ(-30vmin) translateX(10%);
         }
 
         .side:nth-child(5) {
-          width: 400vmin;
+          width: 100vmin;
           box-shadow:
-            0px 0px 40vmin 40vmin rgba(255, 102, 0, 0.4),
+            0px 0px 40vmin 40vmin rgba(255, 0, 0, 0.4),
             inset 0px 0px 50vmin 20vmin rgba(0, 0, 0, 0.69);
           transform: translateZ(calc(-20 * 10vmin)) translateX(50%);
         }
@@ -88,9 +88,9 @@ const TunnelEffect: React.FC = () => {
         .square {
           width: 20vmin;
           aspect-ratio: 1;
-          border: 2px solid rgb(255, 133, 51);
+          border: 4px solid rgb(216, 3, 3);
           filter: blur(2px);
-          box-shadow: 0 0 20px 20px rgba(255, 102, 0, 0.3);
+          box-shadow: 0 0 15px 10px rgba(255, 25, 0, 0.41);
         }
 
         @keyframes moveTunnel {

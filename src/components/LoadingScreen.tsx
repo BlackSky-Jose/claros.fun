@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface LoadingScreenProps {
   onStart: () => void;
@@ -7,54 +7,20 @@ interface LoadingScreenProps {
 const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
   const [progress, setProgress] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
-  const [showFallingChars, setShowFallingChars] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isFadingToDark, setIsFadingToDark] = useState(false);
-
-  // Generate stable particle data to prevent hydration mismatch
-  const particles = useMemo(() => {
-    return Array.from({ length: 15 }).map((_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      animationDelay: Math.random() * 3,
-      animationDuration: 3 + Math.random() * 2,
-    }));
-  }, []);
+  const [isTurningOff, setIsTurningOff] = useState(false);
 
 
   useEffect(() => {
     const startTime = Date.now();
-    const duration = 3000; // 3 seconds total
+    const duration = 2500; // 2.5 seconds total
     
     const updateProgress = () => {
       const elapsed = Date.now() - startTime;
-      const baseProgress = (elapsed / duration) * 100;
+      const progressPercent = Math.min(100, (elapsed / duration) * 100);
       
-      // Create natural loading curve with easing
-      let progressPercent;
-      if (baseProgress < 20) {
-        // Slow start (0-20%)
-        progressPercent = baseProgress * 0.3;
-      } else if (baseProgress < 70) {
-        // Steady middle (20-70%)
-        progressPercent = 6 + (baseProgress - 20) * 0.8;
-      } else if (baseProgress < 90) {
-        // Slight slowdown (70-90%)
-        progressPercent = 46 + (baseProgress - 70) * 0.6;
-      } else {
-        // Final push (90-100%)
-        progressPercent = 58 + (baseProgress - 90) * 4.2;
-      }
+      setProgress(progressPercent);
       
-      // Add subtle natural variation
-      const variation = Math.sin(elapsed / 300) * 1.5 + Math.sin(elapsed / 150) * 0.8;
-      const naturalProgress = Math.max(0, Math.min(100, progressPercent + variation));
-      
-      setProgress(naturalProgress);
-      
-      if (naturalProgress >= 100) {
-        console.log('Progress reached 100%! Setting isComplete to true');
+      if (progressPercent >= 100) {
         setIsComplete(true);
       } else {
         requestAnimationFrame(updateProgress);
@@ -64,272 +30,173 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
     requestAnimationFrame(updateProgress);
   }, []);
 
-  // Start falling characters when progress reaches 50%
+  // Auto-transition to main page when complete
   useEffect(() => {
-    if (progress >= 0 && !showFallingChars) {
-      setShowFallingChars(true);
-    }
-  }, [progress, showFallingChars]);
-
-  // Auto-transition to main page when progress reaches 100%
-  useEffect(() => {
-    if (progress >= 100 && !isTransitioning) {
-      console.log('Progress reached 100%, starting first transition (scale 1.3)');
-      console.log('Current progress value:', progress);
-      setIsTransitioning(true);
-      
-      // Start circle transition after a longer delay to see the full process
+    if (isComplete) {
+      // Start TV turn-off effect
       setTimeout(() => {
+        setIsTurningOff(true);
         
-        // Start dark fade effect
+        // Go to main page after TV turn-off animation
         setTimeout(() => {
-          setIsFadingToDark(true);
-          
-          // Go to main page after dark fade completes
-          setTimeout(() => {
-            onStart();
-          }, 1500); // Wait for dark fade to complete
-        }, 1000); // Wait for content to disappear (1s transition)
-      }, 500); // Wait 2 seconds for circle transition
+          onStart();
+        }, 1200); // Wait for turn-off animation to complete
+      }, 500); // Small delay before starting turn-off
     }
-  }, [progress, isComplete, onStart, isTransitioning]);
+  }, [isComplete, onStart]);
 
-
-  // Debug log
-  const currentScale = isTransitioning ? '10' : '1';
-  console.log('Render - progress:', progress, 'isTransitioning:', isTransitioning, 'scale:', currentScale);
 
   return (
-    <div className="loading-container fixed inset-0 bg-black flex flex-col items-center justify-center z-50">
-      {/* Dark Night Sky Transition Overlay */}
+    <div className={`fixed inset-0 bg-black flex flex-col items-center justify-center z-50 ${isTurningOff ? 'tv-turn-off' : ''}`}>
+      {/* Old TV Frame Background */}
       <div 
-        className={`absolute inset-0 transition-opacity duration-1500 ease-in-out ${
-          isFadingToDark ? 'opacity-100' : 'opacity-0'
-        }`}
+        className="absolute inset-0"
         style={{
           background: `
             radial-gradient(ellipse at center, 
-              rgba(0, 0, 0, 0.3) 0%, 
-              rgba(0, 0, 0, 0.7) 50%, 
-              rgba(0, 0, 0, 0.95) 100%
-            ),
-            linear-gradient(135deg, 
-              rgba(10, 10, 30, 0.9) 0%, 
-              rgba(0, 0, 0, 1) 100%
+              #1a1a1a 0%, 
+              #0d0d0d 70%, 
+              #000000 100%
             )
           `,
-          zIndex: 1000
         }}
-      >
-        {/* Subtle stars appearing in the dark */}
-        <div className="absolute inset-0">
-          {Array.from({ length: 50 }).map((_, i) => (
-            <div
-              key={i}
-              className={`absolute w-1 h-1 bg-white rounded-full star-twinkle ${
-                isFadingToDark ? 'opacity-100' : 'opacity-0'
-              }`}
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 2}s`,
-                transition: 'opacity 1s ease-in-out'
-              }}
-            />
-          ))}
-        </div>
-      </div>
-      {/* Modern gradient background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      />
+      
+      {/* TV Screen Area */}
+      <div 
+        className="absolute inset-8 md:inset-16"
+        style={{
+          background: `
+            radial-gradient(ellipse at center, 
+              #2a2a2a 0%, 
+              #1a1a1a 60%, 
+              #0a0a0a 100%
+            )
+          `,
+          borderRadius: '20px',
+          border: '4px solid #333',
+          boxShadow: `
+            inset 0 0 50px rgba(0,0,0,0.8),
+            0 0 20px rgba(0,0,0,0.5)
+          `
+        }}
+      />
+      
+      {/* TV Static Background */}
+      <div className="tv-static"></div>
+      
+      {/* TV Screen Shrink Effect */}
+      {isTurningOff && (
         <div 
-          className="absolute inset-0"
+          className="absolute inset-0 z-20"
           style={{
-            background: `
-              linear-gradient(135deg, 
-                rgba(0, 0, 0, 0.9) 0%, 
-                rgba(49, 34, 27, 0.95) 50%, 
-                rgb(17, 5, 1) 100%
-              )
-            `,
+            background: 'black',
+            animation: 'tvScreenShrink 1.5s ease-in-out forwards'
           }}
         />
-      </div>
+      )}
 
-      {/* Main content */}
-      <div className="relative z-10 w-full  flex flex-col items-center justify-center">
-        {/* Orange Border Container */}
-        <div 
-          className="border-orange-300 bg-orange-100/5"
+      {/* Clean minimal content */}
+      <div className={`relative z-10 text-center transition-all duration-1000 ${isTurningOff ? 'opacity-0 scale-y-0' : 'opacity-100 scale-y-100'}`}>
+        {/* Title with Claros.fun branding style */}
+        <h1 
+          className="text-6xl md:text-8xl font-bold mb-12 tracking-tight"
           style={{
-            // Smooth interpolation using CSS custom properties
-            '--border-radius': isTransitioning ? '50%' : '12px',
-            '--width': isTransitioning ? '200px' : 'auto',
-            '--height': isTransitioning ? '200px' : 'auto',
-            '--min-width': isTransitioning ? '200px' : '700px',
-            '--min-height': isTransitioning ? '200px' : '200px',
-            '--padding': isTransitioning ? '0' : '40px 80px',
-            '--border-width': isTransitioning ? '12px' : '6px',
-            '--scale':isTransitioning ? '10' : '1',
-            // '--scale': isSecondTransition ? '8' : (isTransitioning ? '8' : '1'),
-            '--shadow-opacity': isTransitioning ? '0.8' : '0.3',
-            '--glow-opacity': isTransitioning ? '0.8' : '0.1',
-            '--border-opacity': isTransitioning ? '0.9' : '0.7',
-            
-            // Apply the custom properties
-            borderRadius: 'var(--border-radius)',
-            width: 'var(--width)',
-            height: 'var(--height)',
-            minWidth: 'var(--min-width)',
-            minHeight: 'var(--min-height)',
-            padding: 'var(--padding)',
-            borderWidth: 'var(--border-width)',
-            aspectRatio: isTransitioning ? '1 / 1' : 'auto',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transform: `perspective(1000px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(${isTransitioning ? '10' : '1'})`,
-            boxShadow: isTransitioning 
-              ? `0 0 60px rgba(255, 102, 0, var(--glow-opacity)), 0 25px 50px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 102, 0, 0.2)`
-              : `0 15px 35px rgba(0, 0, 0, var(--shadow-opacity)), inset 0 1px 0 rgba(255, 102, 0, var(--glow-opacity))`,
-            background: isTransitioning 
-              ? 'radial-gradient(circle at center, rgba(255, 102, 0, 0.15) 0%, rgba(255, 102, 0, 0.08) 50%, rgba(255, 102, 0, 0.02) 100%)'
-              : 'linear-gradient(135deg, rgba(255, 94, 0, 0.08) 0%, rgba(255, 102, 0, 0.04) 100%)',
-            borderColor: `rgba(255, 102, 0, var(--border-opacity))`,
-            
-            // Smooth transition for all properties - slow start, then aggressive
-            transition: isTransitioning ? 'all 2s cubic-bezier(0.25, 0.1, 0.25, 1.0)' : 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-            
-            // Add subtle pulse when in circle state
-            // animation: isTransitioning ? 'enhancedPulse 0.5s ease-in-out infinite 1s' : 'none'
-          } as React.CSSProperties}
-        >
-          {/* Title and Progress Container */}
-          <div 
-            className="opacity-100"
-            style={{
-              transform: `scale(${isTransitioning ? '0.1' : '1'})`,
-              opacity: isTransitioning ? 0 : 1,
-              transition: 'all 1s ease-out',
-            }}
-          >
-            {/* Title */}
-            <div className="mb-8">
-              <h1 
-                className="text-7xl md:text-9xl font-black text-white tracking-tight"
-                style={{
-                  fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
-                  fontWeight: 900,
-                  letterSpacing: '-0.02em',
-                  color: '#ffffff',
-                  textShadow: '4px 4px 4px rgb(214, 97, 1)',
-                  WebkitTextStroke: '4px #000000',
-                  WebkitTextFillColor: '#ffffff',
-                  filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.8)) drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6))',
-                }}
-              >
-                CLAROS.FUN
-              </h1>
-            </div>
-
-
-          </div>
-       
-       
-       
-        </div>
-      </div>
-            <div className='loader' style={ {
-            // custom CSS variables must be quoted
-            position: 'relative',
-            width: '258px',
-            height: '258px',
-            display: 'grid',
-            margin: '0 auto',
-            opacity: isTransitioning ? 0 : 1,
-            transform: `scale(${isTransitioning ? '10' : '1'})`,
-            transition: 'all 1s ease-out',
-            ['--n' as string]: '24',
-            ['--f' as string]: '0.3',
-            ['--p' as string]: progress.toString(),
-            } as React.CSSProperties}>
-              {/* Debug scale indicator */}
-              {/* <div style={{
-                position: 'absolute',
-                top: '-30px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                color: 'white',
-                fontSize: '12px',
-                zIndex: 1000,
-                background: 'rgba(0,0,0,0.7)',
-                padding: '2px 6px',
-                borderRadius: '4px'
-              }}>
-                Scale: {currentScale} | isTransitioning: {isTransitioning.toString()} | Progress: {progress}%
-              </div> */}
-             {/* Create individual segments */}
-           
-           </div>
-
-      {/* Progress Bar Section - Under the orange border */}
-      {/* <div className="w-full max-w-md mx-auto">
-        <div 
-          className='loader-container' 
-          style={{
-            position: 'relative',
-            width: '120px',
-            height: '230px',
-            display: 'grid',
-            margin: '0 auto',
+            color: 'white',
+            WebkitTextStroke: '2px black',
+            background: 'linear-gradient(135deg, #2a1810, #1a0e08, #3d2415, #2a1810)',
+            backgroundSize: '200% 200%',
+            padding: '0.2em 0.5em',
+            borderRadius: '12px',
+            display: 'inline-block',
+            boxShadow: `
+              0 0 20px rgba(255, 107, 53, 0.4),
+              0 4px 8px rgba(0, 0, 0, 0.3),
+              inset 0 2px 0 rgba(255, 255, 255, 0.2)
+            `,
+            textShadow: `3px 5px 10px rgba(252, 70, 4, 0.93)`
           }}
         >
+          Claros.fun
+        </h1>
+
+        {/* Coming soon text */}
+        {/* <p className="text-xl md:text-2xl text-gray-400 mb-16 font-light">
+          Coming soon...
+        </p> */}
+      <div className='h-6'></div>
+        {/* Segmented Progress bar container */}
+        <div className="mx-auto">
           <div 
-            className='loader' 
+            className="segmented-loading-bar"
             style={{
-              ['--p' as string]: progress.toString(),
-            } as React.CSSProperties}
+              width: '301px',
+              background: '#cecece',
+              padding: '2px',
+              border: '1px solid rgba(255, 107, 53, 1)',
+              borderRadius: '6px',
+              boxShadow: '0 0 20px 0 rgba(255, 107, 53, 0.5)',
+              margin: 'auto'
+            }}
           >
-            {/* Create individual segments */}
-            {/* {Array.from({ length: 50 }).map((_, i) => (
-              <div
-                key={i}
-                className="segment"
-                style={{
-                  position: 'absolute',
-                  width: '4px',
-                  height: '20px',
-                  backgroundColor: i < (progress * 0.5) ?'rgb(241, 137, 73) ': 'rgba(136, 86, 11, 0.78)',
-                  borderRadius: '4px',
-                  transformOrigin: '60px 60px',
-                  transform: `rotate(${i * 7.2}deg) translateY(-30px)`,
-                  boxShadow: i < (progress * 0.5) ? '0 0 6px rgb(240, 189, 131)' : 'none',
-                  transition: 'all 0.1s ease',
-                }}
-              />
-            ))}
+            <div 
+              className="segmented-loading-bar--progress"
+              style={{
+                display: 'flex',
+                justifyContent: 'space-evenly',
+                alignItems: 'center',
+                alignContent: 'center'
+              }}
+            >
+              {Array.from({ length: 12 }).map((_, i) => {
+                const segmentProgress = (progress / 100) * 12;
+                const isActive = i < Math.floor(segmentProgress);
+                const isPartial = i === Math.floor(segmentProgress) && segmentProgress % 1 > 0;
+                
+                return (
+                  <span
+                    key={i}
+                    className={`${i === 0 ? 'first' : ''} ${i === 11 ? 'last' : ''}`}
+                    style={{
+                      margin: 'auto',
+                      background: isActive || isPartial ? 'linear-gradient(180deg, rgba(255, 107, 53, 1) 0%, rgba(255, 69, 0, 1) 56%, rgba(204, 82, 0, 1) 100%)' : 'transparent',
+                      borderRadius: '4px',
+                      flexBasis: '11%',
+                      flexGrow: 1,
+                      flexShrink: 1,
+                      height: '20px',
+                      opacity: isActive || isPartial ? 1 : 0.3,
+                      transform: isActive || isPartial ? 'scale(1)' : 'scale(0.8)',
+                      transition: 'all 0.5s cubic-bezier(0.17, 0.67, 0.88, 0.17)',
+                      animationDelay: `${i * 0.15}s`,
+                      ...(i === 0 && {
+                        borderTopLeftRadius: '4px',
+                        borderBottomLeftRadius: '4px'
+                      }),
+                      ...(i === 11 && {
+                        borderTopRightRadius: '4px',
+                        borderBottomRightRadius: '4px'
+                      })
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </div>
+          
+          {/* Loading percentage */}
+          <div className="text-center mt-4">
+            <span className="text-orange-400 font-mono text-lg">
+              LOADING: {Math.round(progress)}%
+            </span>
           </div>
         </div>
-      </div> */} 
 
-      {/* Subtle particles */}
-      
-      <div className="absolute inset-0 pointer-events-none">
-        {particles.map((particle) => (
-          <div
-            key={particle.id}
-            className="absolute w-1 h-1 bg-white rounded-full opacity-20 animate-pulse"
-            style={{
-              left: `${particle.left}%`,
-              top: `${particle.top}%`,
-              animationDelay: `${particle.animationDelay}s`,
-              animationDuration: `${particle.animationDuration}s`
-            }}
-          />
-        ))}
+        {/* Social handle */}
+        <div className="mt-16">
+          <span className="text-gray-500 text-sm ">@Clarosdotfun</span>
+        </div>
       </div>
-
-      {/* TV Static Overlay */}
-      <div className="tv-static"></div>
     </div>
   );
 };

@@ -66,27 +66,50 @@ export interface ExplosionEffect {
 // ];
 
 const MEME_IMAGES = [
-  "./meme/1.png",
-  "./meme/2.png",
-  "./meme/3.png",
-  "./meme/4.png",
-  "./meme/5.png",
-  "./meme/6.png",
-  "./meme/7.png",
-  "./meme/8.png",
-  "./meme/b.webp",
-  "./meme/c.webp",
-  "./meme/d.webp",
-  "./meme/e.webp",
-  "./meme/f.webp",
-  "./meme/g.webp",
-  "./meme/i.webp",
-  "./meme/j.webp",
-  "./meme/k.webp",
-  "./meme/l.webp",
-  "./meme/m.webp",
-  "./meme/n.webp",
-  "./meme/o.webp",
+  "./meme1/a (1).png",
+  "./meme1/a (2).png",
+  "./meme1/a (3).png",
+  "./meme1/a (4).png",
+  "./meme1/a (5).png",
+  "./meme1/a (6).png",
+  "./meme1/a (7).png",
+  "./meme1/a (8).png",
+  "./meme1/a (9).png",
+  "./meme1/a (10).png",
+  "./meme1/a (11).png",
+  "./meme1/a (12).png",
+  "./meme1/a (13).png",
+  "./meme1/a (14).png",
+  "./meme1/b (1).webp",
+  "./meme1/b (2).webp",
+  "./meme1/b (3).webp",
+  "./meme1/b (4).webp",
+  "./meme1/b (5).webp",
+  "./meme1/b (6).webp",
+  "./meme1/b (7).webp",
+  "./meme1/b (8).webp",
+];
+
+// Predefined spawn points (percentage of screen width/height)
+const SPAWN_POINTS = [
+  // Top row
+  { x: 0.08, y: 0.18 }, { x: 0.18, y: 0.1 }, { x: 0.28, y: 0.14 }, { x: 0.45, y: 0.08 }, 
+  { x: 0.65, y: 0.08 }, { x: 0.75, y: 0.15 }, { x: 0.85, y: 0.12 }, { x: 0.92, y: 0.08 },
+  
+  // Second row  
+  { x: 0.05, y: 0.25 }, { x: 0.15, y: 0.22 }, { x: 0.25, y: 0.28 }, { x: 0.78, y: 0.25 }, 
+  { x: 0.88, y: 0.22 }, { x: 0.95, y: 0.28 },
+  
+  // Third row (avoiding center UI)
+  { x: 0.12, y: 0.55 }, { x: 0.22, y: 0.58 }, { x: 0.78, y: 0.55 }, { x: 0.88, y: 0.58 },
+  
+  // Bottom row
+  { x: 0.05, y: 0.75 }, { x: 0.15, y: 0.72 }, { x: 0.25, y: 0.78 }, { x: 0.35, y: 0.85 },
+  { x: 0.45, y: 0.88 }, { x: 0.55, y: 0.85 }, { x: 0.65, y: 0.88 }, { x: 0.75, y: 0.75 },
+  { x: 0.85, y: 0.72 }, { x: 0.95, y: 0.78 },
+  
+  // Side positions
+  { x: 0.02, y: 0.45 }, { x: 0.02, y: 0.65 }, { x: 0.98, y: 0.45 }, { x: 0.98, y: 0.65 },
 ];
 
 export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => void, playHitmarkerSound?: () => void, playFadeSound?: () => void) => {
@@ -94,6 +117,7 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
   const [hitMarkers, setHitMarkers] = useState<HitMarker[]>([]);
   const [fogEffects, setFogEffects] = useState<FogEffect[]>([]);
   const [explosionEffects, setExplosionEffects] = useState<ExplosionEffect[]>([]);
+  const [currentMemeIndex, setCurrentMemeIndex] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const generateMemeElement = (): MemeElement => {
@@ -101,34 +125,47 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
     if (!container) return {} as MemeElement;
 
     const containerRect = container.getBoundingClientRect();
-    const size = Math.random() * 110 + 60; // 30-130px
-    const x = Math.random() * (containerRect.width - size);
-    const y = Math.random() * (containerRect.height - size);
-    const rotation = Math.random() * 180 - 10; // Gentle rotation between -30 and +30 degrees
+    const size = Math.random() * 110 + 60; // 60-170px
+    
+    // Get the next meme in sequential order
+    const src = MEME_IMAGES[currentMemeIndex];
+    
+    // Move to next meme index, loop back to 0 when we reach the end
+    setCurrentMemeIndex((currentMemeIndex + 1) % MEME_IMAGES.length);
+    
+    // Get a random spawn point
+    const spawnPoint = SPAWN_POINTS[Math.floor(Math.random() * SPAWN_POINTS.length)];
+    
+    // Calculate actual pixel positions from percentages
+    const x = (spawnPoint.x * containerRect.width) - (size / 2); // Center the meme on the point
+    const y = (spawnPoint.y * containerRect.height) - (size / 2); // Center the meme on the point
+    
+    // Limit rotation to prevent upside-down images (-45° to +45°)
+    const rotation = Math.random() * 90 - 45; // -45 to +45 degrees
     const duration = Math.random() * 4000 + 3000; // 3-7 seconds
-    const src = MEME_IMAGES[Math.floor(Math.random() * MEME_IMAGES.length)];
 
-  return {
-    id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
-    x,
-    y,
-    size,
-    rotation,
-    src,
-    alt: 'Meme',
-    duration,
-    opacity: 1,
-    isHit: false,
-    createdAt: Date.now(),
+    return {
+      id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
+      x,
+      y,
+      size,
+      rotation,
+      src,
+      alt: 'Meme',
+      duration,
+      opacity: 1,
+      isHit: false,
+      createdAt: Date.now(),
+    };
   };
-  };
 
 
-  // Generate random meme elements
+  // Generate sequential meme elements
   useEffect(() => {
     const interval = setInterval(() => {
       const newElement = generateMemeElement();
-      console.log('Generated new meme element:', newElement);
+      
+      console.log('Generated new meme element (sequential):', newElement);
       setMemeElements(prev => {
         const updated = [...prev, newElement];
         console.log('Total meme elements:', updated.length);
@@ -191,7 +228,7 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
     }, 1000); // New meme every 1 second
 
     return () => clearInterval(interval);
-  }, [isCleaning, playDisappearSound, playFadeSound]);
+  }, [isCleaning, playDisappearSound, playFadeSound, currentMemeIndex]);
 
   // Auto-remove new elements in cleaning mode (backup cleanup)
   useEffect(() => {

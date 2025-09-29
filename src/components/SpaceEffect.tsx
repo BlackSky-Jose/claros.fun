@@ -455,18 +455,18 @@ const SpaceEffect: React.FC = () => {
         style={{
           background: `
             radial-gradient(ellipse at ${50 + Math.sin(timeRef.current * 0.005) * 20}% ${30 + Math.cos(timeRef.current * 0.008) * 15}%, 
-              rgba(8, 5, 41, 0.15) 0%, 
-              rgba(10, 37, 60, 0.1) 40%,
+              rgba(184, 0, 0, 0.15) 0%, 
+              rgba(60, 19, 10, 0.1) 40%,
               transparent 70%
             ),
             radial-gradient(ellipse at ${80 + Math.sin(timeRef.current * 0.007) * 15}% ${70 + Math.cos(timeRef.current * 0.006) * 10}%, 
-              rgba(17, 10, 60, 0.12) 0%, 
-              rgba(20, 5, 40, 0.06) 35%,
+              rgba(60, 12, 10, 0.12) 0%, 
+              rgba(40, 13, 5, 0.06) 35%,
               transparent 60%
             ),
             radial-gradient(ellipse at ${20 + Math.sin(timeRef.current * 0.003) * 12}% ${80 + Math.cos(timeRef.current * 0.004) * 8}%, 
-              rgba(23, 15, 70, 0.1) 0%, 
-              rgba(3, 3, 37, 0.05) 30%,
+              rgba(70, 15, 24, 0.1) 0%, 
+              rgba(149, 29, 5, 0.05) 30%,
               transparent 55%
             )
           `,

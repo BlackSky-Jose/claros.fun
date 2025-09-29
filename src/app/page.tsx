@@ -11,7 +11,8 @@ import { useAudio, useMemeElements } from '@/hooks';
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [isCleaning, setIsCleaning] = useState(false);
-  const { initAudio, playHitSound, playDisappearSound, playHitmarkerSound, playFadeSound } = useAudio();
+  const [isAnimatingIn, setIsAnimatingIn] = useState(false);
+  const { initAudio, playHitSound, playDisappearSound, playHitmarkerSound, playFadeSound, playVacuumSound } = useAudio();
   const { memeElements, hitMarkers, fogEffects, explosionEffects, containerRef, cleanAllElements, removeFogEffect, removeExplosionEffect, handleMemeElementClick } = useMemeElements(isCleaning, playDisappearSound, playHitmarkerSound, );
 
   // Initialize audio
@@ -21,10 +22,15 @@ export default function Home() {
 
   const handleStart = () => {
     setIsLoading(false);
+    // Start fade-up animation
+    setIsAnimatingIn(true);
   };
 
   const handleCleanClick = () => {
     if (!isCleaning) {
+      // Play vacuum cleaner sound
+      playVacuumSound();
+      
       // Play hit sound for each element
       memeElements.forEach(() => {
         playHitSound();
@@ -39,7 +45,6 @@ export default function Home() {
         }, 1000);
       }
       
-      
       // Clean all elements
       cleanAllElements();
     }
@@ -53,7 +58,12 @@ export default function Home() {
   }
 
   return (
-    <div ref={containerRef} className="relative w-full h-screen overflow-hidden bg-black">
+    <div 
+      ref={containerRef} 
+      className={`relative w-full h-screen overflow-hidden bg-black transition-all duration-1000 ease-out ${
+        isAnimatingIn ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      }`}
+    >
       <SpaceEffect />
       <TunnelEffect />
       {/* <Background /> */}

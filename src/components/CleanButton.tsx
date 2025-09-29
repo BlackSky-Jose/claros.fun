@@ -11,7 +11,7 @@ const CleanButton: React.FC<CleanButtonProps> = ({ isCleaning, onClick }) => {
       <div className="h-10"></div>
    
 
-      <div className='flex'>
+      {/* <div className='flex'>
           <button className={"button-main"} onClick={onClick} >
             {isCleaning ? (
               <>
@@ -31,7 +31,18 @@ const CleanButton: React.FC<CleanButtonProps> = ({ isCleaning, onClick }) => {
      
           </button>
           
-      </div>
+      </div> */}
+
+      <button 
+        className={`button-1 ${isCleaning ? 'button-shaking' : ''}`} 
+        onClick={onClick}
+      >
+        {isCleaning ? (
+         <span>cleaning</span>
+        ):(
+          <span>Clean</span>
+        )}
+      </button>
       
     </div>
   );

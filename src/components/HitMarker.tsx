@@ -26,8 +26,8 @@ const HitMarker: React.FC<HitMarkerProps> = ({ x, y, onComplete }) => {
       className="absolute pointer-events-none"
       style={{
         // rotate: '45deg',
-        left: `${x - 50}px`, // Center the 80px hitmarker
-        top: `${y - 40}px`,
+        left: `${x - 70}px`, // Center the 80px hitmarker
+        top: `${y - 50}px`,
         width: '80px',
         height: '80px',
         zIndex: 2000,

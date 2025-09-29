@@ -57,7 +57,7 @@ const MemeElement: React.FC<MemeElementProps> = ({
     if (isHit) return; // Don't animate if hit
     
     const startRotation = rotation; // Initial rotation from props
-    const endRotation = Math.random() * 200 - 20; // Final rotation (upright)
+    const endRotation = Math.random() * 90 - 45; // Final rotation limited to -45° to +45°
     const startScale = 0.1; // Start very small
     const endScale = 1; // End at normal size
     const duration = 300; // 1 second
@@ -139,8 +139,8 @@ const MemeElement: React.FC<MemeElementProps> = ({
       style={{
         left: `${x}px`,
         top: `${y}px`,
-        width: `${size}px`,
-        height: `${size}px`,
+        width: `${size/1.5}px`,
+        height: `${size/1.5}px`,
         transform: `rotate(${currentRotation}deg) scale(${currentScale})`,
         opacity: currentOpacity,
         zIndex: 1000,

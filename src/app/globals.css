@@ -1537,3 +1537,132 @@ body {
   transform: rotateX(90deg) translateZ(30px);
 } 
 
+/* From Uiverse.io by mi-series */ 
+.button-1 {
+  width: 180px;
+  padding: 0;
+  border: none;
+
+  transform-origin: center;
+  font-family: "Arial", sans-serif;
+  text-decoration: none;
+  font-size: 30px;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  padding-bottom: 5px;
+  border-radius: 10px;
+  box-shadow: 0 2px 0 #000000, 0 0 20px rgba(255, 107, 53, 0.3);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: linear-gradient(45deg, #4e0a00, #912f02, #ff4500, #ff6b35);
+  background-size: 300% 300%;
+  animation: gradientShift 3s ease infinite;
+}
+
+.button-1 span {
+  background: linear-gradient(135deg, #ff4500, #ff6b35, #ffaa44, #ff8c42, #fc5421);
+  background-size: 200% 200%;
+  animation: spanGradientShift 2s ease infinite;
+  display: block;
+  padding: 0.1rem 1.5rem;
+  border-radius: 10px;
+  border: 4px solid #ff6b35;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.3), 0 0 15px rgba(255, 107, 53, 0.4);
+}
+
+.button-1:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 #000000, 0 0 30px rgba(255, 107, 53, 0.6);
+}
+
+.button-1:hover span {
+  animation: spanGradientShift 1s ease infinite;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.4), 0 0 25px rgba(255, 107, 53, 0.6);
+}
+
+.button-1:active {
+  transform: translateY(2px);
+  padding-bottom: 0px;
+  outline: 0;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes spanGradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Claros.fun branding animations */
+@keyframes brandingGlow {
+  0%, 100% { 
+    box-shadow: 
+      0 0 20px rgba(255, 107, 53, 0.4),
+      0 4px 8px rgba(0, 0, 0, 0.3),
+      inset 0 2px 0 rgba(255, 255, 255, 0.2);
+  }
+  50% { 
+    box-shadow: 
+      0 0 30px rgba(255, 107, 53, 0.6),
+      0 6px 12px rgba(0, 0, 0, 0.4),
+      inset 0 2px 0 rgba(255, 255, 255, 0.3);
+  }
+}
+
+@keyframes brandingShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes subtleFloat {
+  0%, 100% { 
+    transform: translateY(0px) scale(1);
+  }
+  50% { 
+    transform: translateY(-2px) scale(1.02);
+  }
+}
+
+/* TV Screen Shrink Effect */
+@keyframes tvScreenShrink {
+  0% {
+    transform: scaleX(1) scaleY(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleX(0.1) scaleY(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scaleX(0) scaleY(0);
+    opacity: 0;
+  }
+}
+
+/* Button Shaking Animation for Cleaning Mode */
+@keyframes buttonShake {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  10% { transform: translateX(-2px) translateY(1px); }
+  20% { transform: translateX(2px) translateY(-1px); }
+  30% { transform: translateX(-1px) translateY(2px); }
+  40% { transform: translateX(1px) translateY(-2px); }
+  50% { transform: translateX(-2px) translateY(-1px); }
+  60% { transform: translateX(2px) translateY(1px); }
+  70% { transform: translateX(-1px) translateY(-2px); }
+  80% { transform: translateX(1px) translateY(2px); }
+  90% { transform: translateX(-2px) translateY(1px); }
+}
+
+.button-shaking {
+  animation: buttonShake 0.2s ease-in-out infinite;
+}
+
+
