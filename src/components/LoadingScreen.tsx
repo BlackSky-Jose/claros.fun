@@ -98,23 +98,24 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
 
       {/* Clean minimal content */}
       <div className={`relative z-10 text-center transition-all duration-1000 ${isTurningOff ? 'opacity-0 scale-y-0' : 'opacity-100 scale-y-100'}`}>
-        {/* Title with Claros.fun branding style */}
+        {/* Title with bold outlined style like image */}
         <h1 
-          className="text-6xl md:text-8xl font-bold mb-12 tracking-tight"
+          className="text-6xl md:text-8xl font-black mb-12 tracking-tight"
           style={{
             color: 'white',
-            WebkitTextStroke: '2px black',
-            background: 'linear-gradient(135deg, #2a1810, #1a0e08, #3d2415, #2a1810)',
-            backgroundSize: '200% 200%',
+            WebkitTextStroke: '8px black',
+            background: 'linear-gradient(135deg, #ff6b35, #ff8c42, #ff9f5a)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
             padding: '0.2em 0.5em',
-            borderRadius: '12px',
+            borderRadius: '20px',
             display: 'inline-block',
-            boxShadow: `
-              0 0 20px rgba(255, 107, 53, 0.4),
-              0 4px 8px rgba(0, 0, 0, 0.3),
-              inset 0 2px 0 rgba(255, 255, 255, 0.2)
-            `,
-            textShadow: `3px 5px 10px rgba(252, 70, 4, 0.93)`
+            filter: 'drop-shadow(4px 4px 0px rgba(255, 107, 53, 1)) drop-shadow(6px 6px 0px rgba(0, 0, 0, 0.8))',
+            textShadow: `
+              4px 4px 0px rgba(255, 107, 53, 1),
+              6px 6px 0px rgba(0, 0, 0, 0.8),
+              0 0 20px rgba(255, 107, 53, 0.6)
+            `
           }}
         >
           Claros.fun
