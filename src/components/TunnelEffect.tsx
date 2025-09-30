@@ -88,9 +88,9 @@ const TunnelEffect: React.FC = () => {
         .square {
           width: 20vmin;
           aspect-ratio: 1;
-          border: 4px solid rgb(248, 50, 0);
+          border: 4px solid rgb(248, 70, 0);
           filter: blur(2px);
-          box-shadow: 0 0 15px 10px rgba(255, 68, 0, 0.41);
+          box-shadow: 0 0 15px 10px rgba(255, 115, 0, 0.41);
         }
 
         @keyframes moveTunnel {
