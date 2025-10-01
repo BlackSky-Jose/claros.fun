@@ -110,15 +110,14 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
             padding: '0.2em 0.5em',
             borderRadius: '20px',
             display: 'inline-block',
-            filter: 'drop-shadow(4px 4px 0px rgba(255, 107, 53, 1)) drop-shadow(6px 6px 0px rgba(0, 0, 0, 0.8))',
+            filter: 'drop-shadow(4px 4px 0px rgba(255, 107, 53, 1)) drop-shadow(6px 6px 0px rgba(0, 0, 0, 0))',
             textShadow: `
               4px 4px 0px rgba(255, 107, 53, 1),
-              6px 6px 0px rgba(0, 0, 0, 0.8),
               0 0 20px rgba(255, 107, 53, 0.6)
             `
           }}
         >
-          Claros.fun
+          CLAROS.FUN
         </h1>
 
         {/* Coming soon text */}

@@ -85,44 +85,14 @@ export const useAudio = () => {
   }, []);
 
   const playVacuumSound = useCallback(() => {
-    if (!audioContextRef.current) return;
-    
     try {
-      // Create vacuum cleaner sound using white noise and filtering
-      const bufferSize = audioContextRef.current.sampleRate * 3; // 3 seconds
-      const buffer = audioContextRef.current.createBuffer(1, bufferSize, audioContextRef.current.sampleRate);
-      const data = buffer.getChannelData(0);
-      
-      // Generate white noise
-      for (let i = 0; i < bufferSize; i++) {
-        data[i] = Math.random() * 2 - 1;
-      }
-      
-      const source = audioContextRef.current.createBufferSource();
-      const filter = audioContextRef.current.createBiquadFilter();
-      const gainNode = audioContextRef.current.createGain();
-      
-      source.buffer = buffer;
-      
-      // Configure filter for vacuum-like sound
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(200, audioContextRef.current.currentTime);
-      filter.Q.setValueAtTime(2, audioContextRef.current.currentTime);
-      
-      // Volume envelope
-      gainNode.gain.setValueAtTime(0, audioContextRef.current.currentTime);
-      gainNode.gain.linearRampToValueAtTime(0.15, audioContextRef.current.currentTime + 0.1);
-      gainNode.gain.setValueAtTime(0.15, audioContextRef.current.currentTime + 2.5);
-      gainNode.gain.linearRampToValueAtTime(0, audioContextRef.current.currentTime + 3);
-      
-      source.connect(filter);
-      filter.connect(gainNode);
-      gainNode.connect(audioContextRef.current.destination);
-      
-      source.start(audioContextRef.current.currentTime);
-      source.stop(audioContextRef.current.currentTime + 3);
+      const audio = new Audio('/vaccum-sounds.mp3');
+      audio.volume = 1;
+      audio.play().catch(() => {
+        console.log('Vacuum sound file playback failed');
+      });
     } catch {
-      console.log('Vacuum sound generation failed');
+      console.log('Vacuum sound file not found or failed to load');
     }
   }, []);
 
