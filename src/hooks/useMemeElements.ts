@@ -66,6 +66,14 @@ export interface ExplosionEffect {
 // ];
 
 const MEME_IMAGES = [
+  "./meme1/a (8).png",
+  "./meme1/a (9).png",
+  "./meme1/a (10).png",
+  "./meme1/a (11).png",
+  "./meme1/a (12).png",
+  "./meme1/a (13).png",
+  "./meme1/a (14).png",
+  "./meme1/b (1).webp",
   "./meme1/a (1).png",
   "./meme1/a (2).png",
   "./meme1/a (3).png",
@@ -74,6 +82,9 @@ const MEME_IMAGES = [
   "./meme1/a (6).png",
   "./meme1/a (7).png",
   "./meme1/a (8).png",
+  "./meme1/b (4).webp",
+  "./meme1/b (5).webp",
+  "./meme1/b (6).webp",
   "./meme1/a (9).png",
   "./meme1/a (10).png",
   "./meme1/a (11).png",
@@ -83,9 +94,6 @@ const MEME_IMAGES = [
   "./meme1/b (1).webp",
   "./meme1/b (2).webp",
   "./meme1/b (3).webp",
-  "./meme1/b (4).webp",
-  "./meme1/b (5).webp",
-  "./meme1/b (6).webp",
   "./meme1/b (7).webp",
   "./meme1/b (8).webp",
 ];
@@ -93,22 +101,13 @@ const MEME_IMAGES = [
 // Predefined spawn points (percentage of screen width/height)
 const SPAWN_POINTS = [
   // Top row
-  { x: 0.08, y: 0.18 },  { x: 0.98, y: 0.65 },{ x: 0.28, y: 0.14 }, { x: 0.45, y: 0.08 },  { x: 0.45, y: 0.88 },
-  { x: 0.65, y: 0.08 }, { x: 0.98, y: 0.45 }, { x: 0.15, y: 0.72 }, { x: 0.85, y: 0.12 }, { x: 0.92, y: 0.08 },  
-  // Second row  
-  { x: 0.05, y: 0.25 }, { x: 0.15, y: 0.22 }, { x: 0.78, y: 0.25 }, 
-  { x: 0.35, y: 0.85 } , { x: 0.95, y: 0.28 },
-  
-  // Third row (avoiding center UI)
-  { x: 0.12, y: 0.55 }, { x: 0.22, y: 0.58 },  { x: 0.55, y: 0.85 }, { x: 0.78, y: 0.55 }, { x: 0.88, y: 0.58 },
-  
-  // Bottom row
-  { x: 0.05, y: 0.75 }, { x: 0.25, y: 0.28 },{ x: 0.75, y: 0.15 }, { x: 0.25, y: 0.78 },{ x: 0.88, y: 0.22 },
- { x: 0.65, y: 0.88 }, { x: 0.75, y: 0.75 },
-  { x: 0.85, y: 0.72 }, { x: 0.95, y: 0.78 }, {x: 0.18, y: 0.1 },
-  
-  // Side positions
-  { x: 0.02, y: 0.45 }, { x: 0.02, y: 0.65 }, 
+  { x: 0.08, y: 0.18 },  { x: 0.98, y: 0.65 }, { x: 0.22, y: 0.58 }, { x: 0.28, y: 0.14 }, { x: 0.45, y: 0.88 },
+  { x: 0.92, y: 0.08 }, { x: 0.02, y: 0.65 }, { x: 0.65, y: 0.08 }, { x: 0.75, y: 0.75 }, { x: 0.98, y: 0.45 }, 
+  { x: 0.15, y: 0.72 }, { x: 0.85, y: 0.12 }, { x: 0.05, y: 0.25 }, { x: 0.65, y: 0.88 },{ x: 0.95, y: 0.78 },
+  { x: 0.15, y: 0.22 }, { x: 0.35, y: 0.85 } , { x: 0.95, y: 0.28 },{ x: 0.12, y: 0.55 }, { x: 0.55, y: 0.85 }, 
+  { x: 0.88, y: 0.58 },  { x: 0.05, y: 0.75 }, { x: 0.25, y: 0.28 },{ x: 0.75, y: 0.15 }, { x: 0.45, y: 0.08 }, 
+   { x: 0.25, y: 0.78 }, { x: 0.88, y: 0.22 }, { x: 0.85, y: 0.72 },{ x: 0.78, y: 0.55 }, { x: 0.78, y: 0.25 },
+    {x: 0.18, y: 0.1 },{ x: 0.02, y: 0.45 }, 
 ];
 
 export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => void, playHitmarkerSound?: () => void, playFadeSound?: () => void) => {
@@ -117,7 +116,7 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
   const [fogEffects, setFogEffects] = useState<FogEffect[]>([]);
   const [explosionEffects, setExplosionEffects] = useState<ExplosionEffect[]>([]);
   const [currentMemeIndex, setCurrentMemeIndex] = useState<number>(0);
-  const [lastPosition, setLastPosition] = useState<{x: number, y: number} | null>(null);
+  const [currentSpawnIndex, setCurrentSpawnIndex] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const generateMemeElement = (): MemeElement => {
@@ -133,31 +132,15 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
     // Move to next meme index, loop back to 0 when we reach the end
     setCurrentMemeIndex((currentMemeIndex + 1) % MEME_IMAGES.length);
     
-    // Get a random spawn point (avoid repeating the same actual position)
-    let spawnPoint;
-    let x: number;
-    let y: number;
-    let attempts = 0;
-    const maxAttempts = 10;
+    // Get spawn point in sequential order
+    const spawnPoint = SPAWN_POINTS[currentSpawnIndex];
     
-    do {
-      const randomIndex = Math.floor(Math.random() * SPAWN_POINTS.length);
-      spawnPoint = SPAWN_POINTS[randomIndex];
-      
-      // Calculate actual pixel positions from percentages
-      x = (spawnPoint.x * containerRect.width) - (size / 2); // Center the meme on the point
-      y = (spawnPoint.y * containerRect.height) - (size / 2); // Center the meme on the point
-      
-      attempts++;
-    } while (
-      lastPosition && 
-      Math.abs(x - lastPosition.x) < 50 && 
-      Math.abs(y - lastPosition.y) < 50 && 
-      attempts < maxAttempts
-    );
+    // Move to next spawn point index, loop back to 0 when we reach the end
+    setCurrentSpawnIndex((currentSpawnIndex + 1) % SPAWN_POINTS.length);
     
-    // Store the new position
-    setLastPosition({ x, y });
+    // Calculate actual pixel positions from percentages
+    const x: number = (spawnPoint.x * containerRect.width) - (size / 2); // Center the meme on the point
+    const y: number = (spawnPoint.y * containerRect.height) - (size / 2); // Center the meme on the point
     
     // Limit rotation to prevent upside-down images (-45° to +45°)
     const rotation = Math.random() * 90 - 45; // -45 to +45 degrees
