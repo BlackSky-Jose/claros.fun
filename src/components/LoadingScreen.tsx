@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import VibratingTitle from './VibratingTitle';
 
 interface LoadingScreenProps {
   onStart: () => void;
@@ -98,27 +99,10 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
 
       {/* Clean minimal content */}
       <div className={`relative z-10 text-center transition-all duration-1000 ${isTurningOff ? 'opacity-0 scale-y-0' : 'opacity-100 scale-y-100'}`}>
-        {/* Title with bold outlined style like image */}
-        <h1 
-          className="text-6xl md:text-8xl font-black mb-12 tracking-tight"
-          style={{
-            color: 'white',
-            WebkitTextStroke: '8px black',
-            background: 'linear-gradient(135deg, #ff6b35, #ff8c42, #ff9f5a)',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            padding: '0.2em 0.5em',
-            borderRadius: '20px',
-            display: 'inline-block',
-            filter: 'drop-shadow(4px 4px 0px rgba(255, 107, 53, 1)) drop-shadow(6px 6px 0px rgba(0, 0, 0, 0))',
-            textShadow: `
-              4px 4px 0px rgba(255, 107, 53, 1),
-              0 0 20px rgba(255, 107, 53, 0.6)
-            `
-          }}
-        >
-          CLAROS.FUN
-        </h1>
+        {/* Title with PNG letter images */}
+        <div className="mb-12">
+          <VibratingTitle text="Claros.fun" />
+        </div>
 
         {/* Coming soon text */}
         {/* <p className="text-xl md:text-2xl text-gray-400 mb-16 font-light">
@@ -133,9 +117,9 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
               width: '301px',
               background: '#cecece',
               padding: '2px',
-              border: '1px solid rgba(255, 107, 53, 1)',
+              border: '1px solid rgba(255, 51, 102, 1)',
               borderRadius: '6px',
-              boxShadow: '0 0 20px 0 rgba(255, 107, 53, 0.5)',
+              boxShadow: '0 0 20px 0 rgba(255, 51, 102, 0.5)',
               margin: 'auto'
             }}
           >
@@ -159,7 +143,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
                     className={`${i === 0 ? 'first' : ''} ${i === 11 ? 'last' : ''}`}
                     style={{
                       margin: 'auto',
-                      background: isActive || isPartial ? 'linear-gradient(180deg, rgba(255, 107, 53, 1) 0%, rgba(255, 69, 0, 1) 56%, rgba(204, 82, 0, 1) 100%)' : 'transparent',
+                      background: isActive || isPartial ? 'linear-gradient(180deg, rgba(255, 51, 102, 1) 0%, rgba(221, 119, 187, 1) 56%, rgba(187, 68, 153, 1) 100%)' : 'transparent',
                       borderRadius: '4px',
                       flexBasis: '11%',
                       flexGrow: 1,
@@ -186,7 +170,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
           
           {/* Loading percentage */}
           <div className="text-center mt-4">
-            <span className="text-orange-400 font-mono text-lg">
+            <span className="text-pink-400 font-mono text-lg">
               LOADING: {Math.round(progress)}%
             </span>
           </div>
