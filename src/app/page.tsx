@@ -41,7 +41,7 @@ export default function Home() {
       }
       
       // Wait for vacuum sound to finish, then explode memes
-      const vacuumDuration = vacuumAudio ? (vacuumAudio.duration * 500) : 2000; // Default 3s if can't get duration
+      const vacuumDuration = vacuumAudio ? (vacuumAudio.duration * 100) : 2000; // Default 3s if can't get duration
       
       // Use a fixed duration since audio.duration might not be available immediately
       setTimeout(() => {
