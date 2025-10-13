@@ -31,7 +31,7 @@ const VibratingTitle: React.FC<VibratingTitleProps> = ({ text, className = '' })
         className="claros-branding-text flex items-center justify-center gap-1"
         style={{ 
           display: 'inline-flex',
-          filter: 'drop-shadow(4px 4px 0px rgba(255, 107, 53, 1)) drop-shadow(5px 5px 0px rgba(0, 0, 0, 0.6))',
+          filter: 'drop-shadow(4px 4px 0px rgba(231, 53, 255, 0.18)) drop-shadow(5px 5px 0px rgba(0, 0, 0, 0.6))',
         }}
       >
         {characters.map((char, index) => (

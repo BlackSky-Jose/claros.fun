@@ -91,8 +91,10 @@ export const useAudio = () => {
       audio.play().catch(() => {
         console.log('Vacuum sound file playback failed');
       });
+      return audio;
     } catch {
       console.log('Vacuum sound file not found or failed to load');
+      return null;
     }
   }, []);
 

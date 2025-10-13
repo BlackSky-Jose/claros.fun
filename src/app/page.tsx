@@ -28,15 +28,10 @@ export default function Home() {
 
   const handleCleanClick = () => {
     if (!isCleaning) {
-      // Play vacuum cleaner sound
-      playVacuumSound();
+      // Play vacuum cleaner sound immediately
+      const vacuumAudio = playVacuumSound();
       
-      // Play hit sound for each element
-      memeElements.forEach(() => {
-        playHitSound();
-      });
-      
-      // Add screen vibration effect
+      // Add screen vibration effect immediately
       const container = containerRef.current;
       if (container) {
         container.style.animation = 'screenShake 1s ease-in-out';
@@ -45,8 +40,19 @@ export default function Home() {
         }, 1000);
       }
       
-      // Clean all elements
-      cleanAllElements();
+      // Wait for vacuum sound to finish, then explode memes
+      const vacuumDuration = vacuumAudio ? (vacuumAudio.duration * 500) : 2000; // Default 3s if can't get duration
+      
+      // Use a fixed duration since audio.duration might not be available immediately
+      setTimeout(() => {
+        // Play hit sound for each element
+        memeElements.forEach(() => {
+          playHitSound();
+        });
+        
+        // Clean all elements (trigger explosion)
+        cleanAllElements();
+      }, 2000); // Wait 3 seconds for vacuum sound to finish
     }
     
     setIsCleaning(!isCleaning);
