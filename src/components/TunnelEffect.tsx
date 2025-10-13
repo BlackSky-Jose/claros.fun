@@ -82,20 +82,20 @@ const TunnelEffect: React.FC = () => {
         }
 
         .stroke {
-          width: 10vmin;
+          width: 7.5vmin;
         }
 
         .square {
-          width: 20vmin;
+          width: 15vmin;
           aspect-ratio: 1;
-          border: 4px solid rgb(255, 51, 102);
+          border: 3px solid rgb(255, 51, 102);
           filter: blur(2px);
           box-shadow: 0 0 15px 10px rgba(221, 119, 187, 0.41);
         }
 
         @keyframes moveTunnel {
           from {
-            transform: translateZ(50vmin);
+            transform: translateZ(52.5vmin);
           }
           to {
             transform: translateZ(60vmin);
