@@ -32,8 +32,8 @@ const TunnelEffect: React.FC = () => {
         }
 
         .tunnel {
-          width: 50vmin;
-          height:50vmin;
+          width: min(50vmin, 500px);
+          height: min(50vmin, 500px);
           position: relative;
           transform-style: preserve-3d;
           transform: translateZ(50vmin);
@@ -82,20 +82,20 @@ const TunnelEffect: React.FC = () => {
         }
 
         .stroke {
-          width: 7.5vmin;
+          width: 6vmin;
         }
 
         .square {
-          width: 15vmin;
+          width: min(12vmin, 120px);
           aspect-ratio: 1;
-          border: 3px solid rgb(255, 51, 102);
-          filter: blur(2px);
-          box-shadow: 0 0 15px 10px rgba(221, 119, 187, 0.41);
+          border: 2px solid rgb(255, 51, 102);
+          filter: blur(1px);
+          box-shadow: 0 0 10px 5px rgba(221, 119, 187, 0.41);
         }
 
         @keyframes moveTunnel {
           from {
-            transform: translateZ(52.5vmin);
+            transform: translateZ(54vmin);
           }
           to {
             transform: translateZ(60vmin);
