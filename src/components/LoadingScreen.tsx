@@ -9,7 +9,15 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
   const [progress, setProgress] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [isTurningOff, setIsTurningOff] = useState(false);
+  const [titleVisible, setTitleVisible] = useState(false);
 
+
+  // Trigger title animation on mount
+  useEffect(() => {
+    setTimeout(() => {
+      setTitleVisible(true);
+    }, 300);
+  }, []);
 
   useEffect(() => {
     const startTime = Date.now();
@@ -99,8 +107,19 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
 
       {/* Clean minimal content */}
       <div className={`relative z-10 text-center transition-all duration-1000 ${isTurningOff ? 'opacity-0 scale-y-0' : 'opacity-100 scale-y-100'}`}>
-        {/* Title with PNG letter images */}
-        <div className="mb-12">
+        {/* Title with PNG letter images - Amazing Animation */}
+        <div 
+          className={`mb-12 transition-all duration-1000 ${
+            titleVisible 
+              ? 'opacity-100 scale-100 rotate-0' 
+              : 'opacity-0 scale-50 -rotate-12'
+          }`}
+          style={{
+            transform: titleVisible ? 'translateY(0)' : 'translateY(-50px)',
+            filter: titleVisible ? 'blur(0px) brightness(1)' : 'blur(10px) brightness(2)',
+            transition: 'all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
+          }}
+        >
           <VibratingTitle text="Claros.fun" />
         </div>
 
