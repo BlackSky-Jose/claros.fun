@@ -19,11 +19,11 @@ const CentralBranding: React.FC<CentralBrandingProps> = ({ isCleaning, onCleanCl
         <VibratingTitle text="Claros.fun" />
         <div className='h-6'></div>
         <h1 
-          className="text-lg sm:text-xl md:text-3xl mb-12 font-white uppercase text-center leading-[0.70em] outline-none"
+          className="text-lg sm:text-xl md:text-2xl mb-12 font-white uppercase text-center leading-[0.70em] outline-none"
           style={{
             fontFamily: '"Comic Sans MS", "Chalkboard SE", "Comic Neue", cursive',
             fontWeight: 600,
-            letterSpacing: '10px',
+            letterSpacing: '3px',
             animation: 'dimlight 5s infinite',
             WebkitBoxReflect: 'below 1px linear-gradient(transparent, rgba(0, 0, 0, 0.27))',
           }}
@@ -42,7 +42,7 @@ const CentralBranding: React.FC<CentralBrandingProps> = ({ isCleaning, onCleanCl
             }
           }
         `}</style>
-        <div className="flex justify-center">
+        <div className="flex justify-center !mt-8">
             <CleanButton  isCleaning={isCleaning} onClick={onCleanClick} />
         </div>
       </div>

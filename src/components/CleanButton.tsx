@@ -7,43 +7,17 @@ interface CleanButtonProps {
 
 const CleanButton: React.FC<CleanButtonProps> = ({ isCleaning, onClick }) => {
   return (
-    <div className="ancient-button-container mt-10f">
-      <div className="h-10"></div>
-   
-
-      {/* <div className='flex'>
-          <button className={"button-main"} onClick={onClick} >
-            {isCleaning ? (
-              <>
-                <span>Purging...</span>
-                <span>Purging...</span>
-                <span>Purging...</span>
-                <span>Purging...</span>
-              </>
-            ) : (
-              <>
-                <span>Clean</span>
-                <span>Clean</span>
-                <span>Clean</span>
-                <span>Clean</span>
-              </>
-            )}
-     
+    <div className="flex justify-center mt-8">
+      <div className="button-border">
+        <div className="button-base">
+          <button 
+            className={`button ${isCleaning ? 'button-shaking' : ''}`} 
+            onClick={onClick}
+          >
+            {isCleaning ? 'Cleaning...' : 'Clean Feed'}
           </button>
-          
-      </div> */}
-
-      <button 
-        className={`pushable ${isCleaning ? 'button-shaking' : ''}`} 
-        onClick={onClick}
-      >
-        <span className="shadow"></span>
-        <span className="edge"></span>
-        <span className="front">
-          {isCleaning ? 'CLEANING' : 'CLEAN'}
-        </span>
-      </button>
-      
+        </div>
+      </div>
     </div>
   );
 };

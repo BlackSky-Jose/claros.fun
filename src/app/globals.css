@@ -1664,115 +1664,49 @@ body {
 }
 
 .button-shaking {
-  animation: buttonShake 0.2s ease-in-out infinite;
+  animation: buttonShake 0.3s ease-in-out infinite;
 }
 
-/* Modern Layered 3D Push Button */
-.pushable {
+/* Punch Button Styles */
+.button-border {
+  border: 6px solid #ba70ffbb;
+  outline: 3px solid;
+  border-radius: 100px;
+}
+
+.button-base {
+  background-color: #461c75;
+  outline: 2px solid black;
   position: relative;
-  border: none;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-  outline-offset: 4px;
-  transition: filter 250ms;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
+  border-radius: 100px;
 }
 
-.shadow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-  background: hsl(0deg 0% 0% / 0.25);
-  will-change: transform;
-  transform: translateY(2px);
-  transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
-}
-
-.edge {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-  background: linear-gradient(
-    to left,
-    #9850D9 0%,
-    #B476F2 8%,
-    #C699F5 50%,
-    #E8B4F5 92%,
-    #9850D9 100%
-  );
-}
-
-.front {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 220px;
-  height: 60px;
-  border-radius: 16px;
+.button {
+  border-radius: 100px;
+  font-family: "Comic Sans MS", "Chalkboard SE", "Comic Neue", cursive;
   font-size: 1.5rem;
-  font-weight: 900;
-  color: white;
-  background: transparent;
-  will-change: transform;
-  transform: translateY(-4px);
-  transition: all 600ms cubic-bezier(.3, .7, .4, 1);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  /* Claros.fun style matching */
-  WebkitTextStroke: 5px black;
-  filter: drop-shadow(2px 2px 0px rgba(180, 118, 242, 0.8)) drop-shadow(4px 4px 0px rgba(232, 180, 245, 0.6));
-  text-shadow: 
-    0 0 5px rgba(198, 153, 245, 0.5);
-  overflow: hidden;
+  font-weight: 700;
+  outline: 2px solid black;
+  border: 3px solid;
+  border-left-color: #e7b8b4;
+  border-top-color: #f8c9c5;
+  border-bottom-color: #3c144e;
+  border-right-color: #551e79;
+  background-color: #8a39e6;
+  cursor: pointer;
+  color: #ffffff;
+  padding: 6px 10px;
+  transform: translateY(-10%);
 }
 
-.pushable:hover {
-  filter: brightness(115%) saturate(110%);
+.button:hover {
+  transform: translateY(-7%);
 }
 
-.pushable .front {
-  transform: translateY(-6px) scale(1.02);
-  transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
-  box-shadow: 
-    inset 0 2px 0 rgba(255, 255, 255, 0.3),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.15),
-    0 0 30px rgba(180, 118, 242, 0.5);
-  border-color: rgba(255, 255, 255, 0.2);
+.button:active {
+  transform: translateY(0);
 }
 
-.pushable:active .front {
-  transform: translateY(-2px) scale(0.98);
-  transition: transform 34ms;
-  filter: brightness(95%);
-  box-shadow: 
-    inset 0 3px 8px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.pushable:hover .shadow {
-  transform: translateY(4px) scale(1.05);
-  transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
-  background: hsl(0deg 0% 0% / 0.35);
-}
-
-.pushable:active .shadow {
-  transform: translateY(1px) scale(1.02);
-  transition: transform 34ms;
-  background: hsl(0deg 0% 0% / 0.15);
-}
-
-.pushable:focus:not(:focus-visible) {
-  outline: none;
-}
 
 /* Clean Claros.fun style - no overlays needed */
 

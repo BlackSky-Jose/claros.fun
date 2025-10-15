@@ -67,12 +67,13 @@ export interface ExplosionEffect {
 
 const MEME_IMAGES = [
   "./meme1/a (8).png",
-  "./meme1/a (9).png",
+  "./meme1/a (9).webp",
   "./meme1/a (10).png",
   "./meme1/a (11).png",
   "./meme1/a (12).png",
   "./meme1/a (13).png",
   "./meme1/a (14).png",
+  "./meme1/b (10).webp",
   "./meme1/b (1).webp",
   "./meme1/a (1).png",
   "./meme1/a (2).png",
@@ -84,8 +85,9 @@ const MEME_IMAGES = [
   "./meme1/a (8).png",
   "./meme1/b (4).webp",
   "./meme1/b (5).webp",
+  "./meme1/b (9).webp",
   "./meme1/b (6).webp",
-  "./meme1/a (9).png",
+  "./meme1/a (9).webp",
   "./meme1/a (10).png",
   "./meme1/a (11).png",
   "./meme1/a (12).png",
@@ -96,6 +98,8 @@ const MEME_IMAGES = [
   "./meme1/b (3).webp",
   "./meme1/b (7).webp",
   "./meme1/b (8).webp",
+
+
 ];
 
 // Predefined spawn points (percentage of screen width/height)

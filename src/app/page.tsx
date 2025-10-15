@@ -52,7 +52,7 @@ export default function Home() {
         
         // Clean all elements (trigger explosion)
         cleanAllElements();
-      }, 2000); // Wait 3 seconds for vacuum sound to finish
+      }, 2000); // Wait 2 seconds for vacuum sound to finish
     }
     
     setIsCleaning(!isCleaning);
