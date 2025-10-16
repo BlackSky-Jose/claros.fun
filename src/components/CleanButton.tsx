@@ -14,7 +14,7 @@ const CleanButton: React.FC<CleanButtonProps> = ({ isCleaning, onClick }) => {
             className={`button ${isCleaning ? 'button-shaking' : ''}`} 
             onClick={onClick}
           >
-            {isCleaning ? 'Cleaning...' : 'Clean Feed'}
+            {isCleaning ? 'Cleaning' : 'Clean Feed'}
           </button>
         </div>
       </div>
