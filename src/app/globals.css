@@ -1696,6 +1696,7 @@ body {
   cursor: pointer;
   color: #ffffff;
   padding: 6px 10px;
+  min-width: 180px;
   transform: translateY(-10%);
 }
 
