@@ -11,9 +11,10 @@ import { useAudio, useMemeElements } from '@/hooks';
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [isCleaning, setIsCleaning] = useState(false);
+  const [isPreparing, setIsPreparing] = useState(false);
   const [isAnimatingIn, setIsAnimatingIn] = useState(false);
   const { initAudio, playHitSound, playDisappearSound, playHitmarkerSound, playFadeSound, playVacuumSound } = useAudio();
-  const { memeElements, hitMarkers, fogEffects, explosionEffects, containerRef, cleanAllElements, removeFogEffect, removeExplosionEffect, handleMemeElementClick } = useMemeElements(isCleaning, playDisappearSound, playHitmarkerSound, );
+  const { memeElements, hitMarkers, fogEffects, explosionEffects, containerRef, cleanAllElements, removeFogEffect, removeExplosionEffect, handleMemeElementClick } = useMemeElements(isCleaning, isPreparing, playDisappearSound, playHitmarkerSound, );
 
   // Initialize audio
   useEffect(() => {
@@ -27,7 +28,11 @@ export default function Home() {
   };
 
   const handleCleanClick = () => {
-    if (!isCleaning) {
+    if (!isCleaning && !isPreparing) {
+      // Turn ON cleaning mode - start preparing phase
+      setIsPreparing(true);
+      setIsCleaning(true);
+      
       // Play vacuum cleaner sound immediately
       const vacuumAudio = playVacuumSound();
       
@@ -40,10 +45,7 @@ export default function Home() {
         }, 1000);
       }
       
-      // Wait for vacuum sound to finish, then explode memes
-      const vacuumDuration = vacuumAudio ? (vacuumAudio.duration * 100) : 2000; // Default 3s if can't get duration
-      
-      // Use a fixed duration since audio.duration might not be available immediately
+      // Wait for vacuum sound to finish, then explode all memes at once
       setTimeout(() => {
         // Play hit sound for each element
         memeElements.forEach(() => {
@@ -52,10 +54,17 @@ export default function Home() {
         
         // Clean all elements (trigger explosion)
         cleanAllElements();
+        
+        // After explosion, exit preparation phase but STAY in cleaning mode
+        setTimeout(() => {
+          setIsPreparing(false);
+          // Keep isCleaning=true so memes continue to spawn and disappear quickly
+        }, 1500); // Wait for explosion and fog effects to finish (1.5 seconds)
       }, 2000); // Wait 2 seconds for vacuum sound to finish
+    } else if (isCleaning && !isPreparing) {
+      // Turn OFF cleaning mode - return to normal mode
+      setIsCleaning(false);
     }
-    
-    setIsCleaning(!isCleaning);
   };
 
   // Show loading screen first
@@ -76,7 +85,7 @@ export default function Home() {
       <MagicalOrbs />
       {/* <ScanlineEffect /> */}
       {/* <MouseTail isActive={!isLoading} /> */}
-      <CentralBranding isCleaning={isCleaning} onCleanClick={handleCleanClick} />
+      <CentralBranding isCleaning={isCleaning} isPreparing={isPreparing} onCleanClick={handleCleanClick} />
       
       {memeElements.map((element) => (
         <MemeElement
@@ -90,7 +99,7 @@ export default function Home() {
           alt={element.alt}
           opacity={element.opacity}
           isHit={element.isHit}
-          onClick={handleMemeElementClick}
+          onClick={isPreparing ? undefined : handleMemeElementClick}
         />
       ))}
 

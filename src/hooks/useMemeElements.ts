@@ -114,7 +114,7 @@ const SPAWN_POINTS = [
   {x: 0.18, y: 0.1 },{ x: 0.02, y: 0.45 }, 
 ];
 
-export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => void, playHitmarkerSound?: () => void, playFadeSound?: () => void) => {
+export const useMemeElements = (isCleaning: boolean, isPreparing: boolean, playDisappearSound?: () => void, playHitmarkerSound?: () => void, playFadeSound?: () => void) => {
   const [memeElements, setMemeElements] = useState<MemeElement[]>([]);
   const [hitMarkers, setHitMarkers] = useState<HitMarker[]>([]);
   const [fogEffects, setFogEffects] = useState<FogEffect[]>([]);
@@ -122,6 +122,7 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
   const [currentMemeIndex, setCurrentMemeIndex] = useState<number>(0);
   const [currentSpawnIndex, setCurrentSpawnIndex] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const fadeTimeoutsRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
 
   const generateMemeElement = (): MemeElement => {
     const container = containerRef.current;
@@ -168,6 +169,11 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
 
   // Generate sequential meme elements
   useEffect(() => {
+    // Don't spawn new memes if preparing to clean
+    if (isPreparing) {
+      return;
+    }
+
     const interval = setInterval(() => {
       const newElement = generateMemeElement();
       
@@ -179,18 +185,18 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
       });
 
       if (isCleaning) {
-        // In purging mode: animation (0.3s) + stay (0.6s) = 0.9s total, then fade out
-        setTimeout(() => {
+        // Cleaning mode: quick spawn and disappear
+        const fadeTimeout = setTimeout(() => {
           setMemeElements(prev => {
             const element = prev.find(el => el.id === newElement.id);
             if (element) {
-              // Add fog effect when element disappears in purging mode
+              // Add fog effect when element disappears in cleaning mode
               addFogEffect(element.x + element.size / 2, element.y + element.size / 2, element.size);
-              // Play disappear sound in purging mode
+              // Play disappear sound in cleaning mode
               if (playDisappearSound) {
                 playDisappearSound();
               }
-              // Start fade out after staying visible for 0.6s
+              // Start quick fade out
               return prev.map(el => 
                 el.id === newElement.id 
                   ? { ...el, opacity: 0, isHit: true }
@@ -203,11 +209,15 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
           // Remove element after fade animation
           setTimeout(() => {
             setMemeElements(prev => prev.filter(el => el.id !== newElement.id));
-          }, 500);
-        }, 1300); // 0.3s (animation) + 0.6s (stay) = 0.9s total
+            fadeTimeoutsRef.current.delete(newElement.id);
+          }, 500); // Quick fade out in cleaning mode
+        }, 1300); // Spawn (300ms) + Stay visible (1000ms) = 1300ms total
+
+        // Track the timeout so we can cancel it if needed
+        fadeTimeoutsRef.current.set(newElement.id, fadeTimeout);
       } else {
         // Normal mode: slow fade out with fade sound
-        setTimeout(() => {
+        const fadeTimeout = setTimeout(() => {
           setMemeElements(prev => {
             const element = prev.find(el => el.id === newElement.id);
             if (element) {
@@ -228,30 +238,30 @@ export const useMemeElements = (isCleaning: boolean, playDisappearSound?: () => 
           // Remove element after fade animation
           setTimeout(() => {
             setMemeElements(prev => prev.filter(el => el.id !== newElement.id));
+            fadeTimeoutsRef.current.delete(newElement.id);
           }, 1000); // 1 second slow fade out
         }, newElement.duration);
+
+        // Track the timeout so we can cancel it if needed
+        fadeTimeoutsRef.current.set(newElement.id, fadeTimeout);
       }
     }, 1000); // New meme every 1 second
 
     return () => clearInterval(interval);
-  }, [isCleaning, playDisappearSound, playFadeSound, currentMemeIndex]);
+  }, [isPreparing, isCleaning, playFadeSound, playDisappearSound, currentMemeIndex]);
 
-  // Auto-remove new elements in cleaning mode (backup cleanup)
+  // Freeze memes during preparation phase - cancel any scheduled fade-outs
   useEffect(() => {
-    if (isCleaning) {
-      const interval = setInterval(() => {
-        setMemeElements(prev => {
-          const now = Date.now();
-          return prev.filter(el => {
-            const age = now - el.createdAt;
-            return age < 2000; // Keep elements less than 2 seconds old (backup cleanup)
-          });
-        });
-      }, 1000);
-
-      return () => clearInterval(interval);
+    if (isPreparing) {
+      // When preparing, we want to keep all memes frozen on screen
+      // Clear all scheduled fade-out timeouts
+      console.log('Preparing to clean - freezing all memes and canceling fade-outs');
+      fadeTimeoutsRef.current.forEach((timeout) => {
+        clearTimeout(timeout);
+      });
+      fadeTimeoutsRef.current.clear();
     }
-  }, [isCleaning]);
+  }, [isPreparing]);
 
   // Clean up hit markers
   useEffect(() => {
