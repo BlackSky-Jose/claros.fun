@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   title: "Claros.fun",
   description: "Claros.fun",
   icons: {
-    icon: "/logo.png",
+    icon: "/claros/C.png",
   },
 };
 
