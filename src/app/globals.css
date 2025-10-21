@@ -1711,6 +1711,22 @@ body {
 
 /* Clean Claros.fun style - no overlays needed */
 
+/* Faint Pulse Animation for X Button */
+@keyframes faintPulse {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(180, 118, 242, 0.3), 0 0 10px rgba(180, 118, 242, 0.1);
+    border-color: rgba(180, 118, 242, 0.8);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(180, 118, 242, 0.5), 0 0 20px rgba(180, 118, 242, 0.2);
+    border-color: rgba(180, 118, 242, 1);
+  }
+}
+
+.animate-faint-pulse {
+  animation: faintPulse 2s ease-in-out infinite;
+}
+
 /* Enhanced Loading Screen Animations */
 @keyframes float {
   0%, 100% {
