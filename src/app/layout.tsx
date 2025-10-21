@@ -30,8 +30,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/banner.png",
-        width: 1200,
-        height: 630,
+        width: 600,
+        height: 110,
         alt: "Claros - A tool for digital clarity",
       },
     ],
