@@ -26,12 +26,12 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Claros",
-    description: "Coming soon.",
+    description: "A tool for digital clarity\n\nComing soon. ",
     images: [
       {
         url: "/banner.png",
-        width: 618,
-        height: 248,
+        width: 1201,
+        height: 454,
         alt: "Claros - A tool for digital clarity",
       },
     ],
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Claros",
-    description: "Coming soon.",
+    description: "A tool for digital clarity\n\nComing soon. ",
     images: ["/banner.png"],
     creator: "@Clarosdotfun",
   },
