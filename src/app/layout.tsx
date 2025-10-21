@@ -19,19 +19,19 @@ const cinzel = Cinzel({
 });
 
 export const metadata: Metadata = {
-  title: "Claros",
+  // title: "Claros",
   description: "A tool for digital clarity.\n\nBuilt to filter noise, uncover context, and restore focus to your browsing experience.",
   icons: {
     icon: "/claros/C.png",
   },
   openGraph: {
     title: "Claros",
-    description: "A tool for digital clarity.\n\nBuilt to filter noise, uncover context, and restore focus to your browsing experience.",
+    description: "Coming soon.",
     images: [
       {
         url: "/banner.png",
-        width: 600,
-        height: 110,
+        width: 618,
+        height: 248,
         alt: "Claros - A tool for digital clarity",
       },
     ],
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Claros",
-    description: "A tool for digital clarity.\n\nBuilt to filter noise, uncover context, and restore focus to your browsing experience.",
+    description: "Coming soon.",
     images: ["/banner.png"],
     creator: "@Clarosdotfun",
   },
