@@ -50,3 +50,5 @@ This directory contains all the reusable React components for the Claros.fun web
 ```tsx
 import { Background, CentralBranding, MemeElement, HitMarker } from '@/components';
 ```
+## Contact
+ http://x.com/BlackSky_jose
